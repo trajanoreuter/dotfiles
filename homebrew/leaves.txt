@@ -4,6 +4,7 @@ bottom
 cffi
 docutils
 exa
+fd
 go
 helm
 incu6us/tap/goimports-reviser

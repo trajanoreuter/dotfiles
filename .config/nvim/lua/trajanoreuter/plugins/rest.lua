@@ -28,7 +28,7 @@ return {
         result = {
           split = {
             horizontal = false,
-            in_place = false,
+            in_place = true,
             stay_in_current_window_after_split = true,
           },
           behavior = {
@@ -41,8 +41,9 @@ return {
             },
             statistics = {
               enable = true,
+              ---@see https://curl.se/libcurl/c/curl_easy_getinfo.html
               stats = {
-                { "total_time", title = "Time taken:" },
+                { "total_time", title = "Latency:" },
                 { "size_download_t", title = "Download size:" },
               },
             },
