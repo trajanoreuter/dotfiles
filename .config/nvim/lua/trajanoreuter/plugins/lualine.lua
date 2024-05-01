@@ -64,6 +64,11 @@ return {
           { "encoding" },
           { "fileformat" },
           { "filetype" },
+          {
+            "rest",
+            icon = "",
+            fg = "#428890",
+          },
         },
       },
     })

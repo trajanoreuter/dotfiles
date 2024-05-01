@@ -15,6 +15,7 @@ return {
       g = { name = "Git" },
       h = { "<cmd>nohlsearch<CR>", "NOHL" },
       q = { "<cmd>confirm q<CR>", "Quit" },
+      r = { name = "Rest" },
       t = { name = "Tab and Window management" },
       x = { name = "Trouble" },
       w = { "<cmd>w!<CR>", "Save" },
