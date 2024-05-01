@@ -8,16 +8,16 @@ return {
   opts = {},
   config = function()
     local mappings = {
-      w = { "<cmd>w!<CR>", "Save" },
-      q = { "<cmd>confirm q<CR>", "Quit" },
-      h = { "<cmd>nohlsearch<CR>", "NOHL" },
       [";"] = { "<cmd>tabnew | terminal<CR>", "Term" },
-      g = { name = "Git" },
       d = { name = "DAP" },
       e = { name = "NvimTree" },
-      t = { name = "Tab and Window management" },
       f = { name = "TeleScope" },
+      g = { name = "Git" },
+      h = { "<cmd>nohlsearch<CR>", "NOHL" },
+      q = { "<cmd>confirm q<CR>", "Quit" },
+      t = { name = "Tab and Window management" },
       x = { name = "Trouble" },
+      w = { "<cmd>w!<CR>", "Save" },
     }
 
     local which_key = require("which-key")

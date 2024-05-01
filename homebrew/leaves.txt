@@ -21,6 +21,7 @@ thefuck
 tig
 tmux
 tree
+universal-ctags
 warrensbox/tap/tfswitch
 wtfutil
 yq
