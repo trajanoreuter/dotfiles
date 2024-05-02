@@ -5,7 +5,11 @@ return {
   dependencies = { "nvim-tree/nvim-web-devicons" },
   config = function()
     local oil = require("oil")
-    oil.setup()
+    oil.setup({
+      view_options = {
+        show_hidden = true,
+      },
+    })
 
     local keymap = vim.keymap
     keymap.set("n", "<leader>o", "<cmd>Oil<CR>", { desc = "Open oil" })
