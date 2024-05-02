@@ -18,7 +18,7 @@ return {
         },
       },
       defaults = {
-        path_display = { "smart" },
+        -- path_display = { "smart" },
         file_ignore_patterns = { ".git/", "node_modules/" },
         mappings = {
           i = {
