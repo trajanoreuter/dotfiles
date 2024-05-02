@@ -13,7 +13,7 @@ return {
       e = { name = "NvimTree" },
       f = { name = "TeleScope" },
       g = { name = "Git" },
-      h = { "<cmd>nohlsearch<CR>", "NOHL" },
+      h = { name = "Harpoon" },
       q = { "<cmd>confirm q<CR>", "Quit" },
       r = { name = "Rest" },
       t = { name = "Tab and Window management" },

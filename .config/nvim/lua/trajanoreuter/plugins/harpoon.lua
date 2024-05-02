@@ -29,30 +29,29 @@ return {
         :find()
     end
 
-    vim.keymap.set("n", "<leader>a", function()
+    local keymap = vim.keymap
+
+    keymap.set("n", "<leader>ha", function()
       harpoon:list():add()
-    end)
-    vim.keymap.set("n", "<C-h>", function()
-      harpoon:list():select(1)
-    end)
-    vim.keymap.set("n", "<C-t>", function()
-      harpoon:list():select(2)
-    end)
-    vim.keymap.set("n", "<C-n>", function()
-      harpoon:list():select(3)
-    end)
-    vim.keymap.set("n", "<C-s>", function()
-      harpoon:list():select(4)
-    end)
+    end, { desc = "Add" })
+
+    -- select harpoon 1-9
+    for i = 1, 9 do
+      keymap.set("n", "<leader>h" .. i, function()
+        harpoon:list():select(i)
+      end, { desc = "Select " .. i })
+    end
+
     -- Toggle previous & next buffers stored within Harpoon list
-    vim.keymap.set("n", "<C-S-P>", function()
+    keymap.set("n", "<C-S-P>", function()
       harpoon:list():prev()
     end)
-    vim.keymap.set("n", "<C-S-N>", function()
+
+    keymap.set("n", "<C-S-N>", function()
       harpoon:list():next()
     end)
 
-    vim.keymap.set("n", "<C-e>", function()
+    keymap.set("n", "<leader>hl", function()
       toggle_telescope(harpoon:list())
     end, { desc = "Open harpoon window" })
   end,
