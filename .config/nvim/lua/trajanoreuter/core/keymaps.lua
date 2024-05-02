@@ -26,3 +26,7 @@ keymap.set("v", ">", ">gv", { noremap = true, silent = true })
 
 -- Tagbar
 keymap.set("n", "<leader>ct", ":TagbarToggle<CR>", { desc = "Toggle Tagbar" })
+
+-- folding
+keymap.set("n", "-", "<cmd>foldclose<CR>", { desc = "Close fold" })
+keymap.set("n", "+", "<cmd>foldopen<CR>", { desc = "Open fold" })

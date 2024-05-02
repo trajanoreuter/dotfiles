@@ -50,3 +50,9 @@ opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift 
 opt.wrap = false -- display lines as one long line
 opt.scrolloff = 0
 opt.sidescrolloff = 8
+
+-- fold settings
+opt.foldcolumn = "1" -- '0' is not bad
+opt.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+opt.foldlevelstart = 99
+opt.foldenable = true

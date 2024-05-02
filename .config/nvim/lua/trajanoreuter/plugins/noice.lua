@@ -30,5 +30,30 @@ return {
         lsp_doc_border = false, -- add a border to hover docs and signature help
       },
     })
+
+    local notify = require("notify")
+    local config = {
+      background_colour = "NotifyBackground",
+      fps = 30,
+      icons = {
+        DEBUG = "",
+        ERROR = "",
+        INFO = "",
+        TRACE = "✎",
+        WARN = "",
+      },
+      level = 2,
+      minimum_width = 50,
+      render = "compact",
+      stages = "fade",
+      time_formats = {
+        notification = "%T",
+        notification_history = "%FT%T",
+      },
+      timeout = 2000,
+      top_down = false,
+    }
+
+    notify.setup(config)
   end,
 }
