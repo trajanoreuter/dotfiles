@@ -30,3 +30,9 @@ keymap.set("n", "<leader>ct", ":TagbarToggle<CR>", { desc = "Toggle Tagbar" })
 -- folding
 keymap.set("n", "-", "<cmd>foldclose<CR>", { desc = "Close fold" })
 keymap.set("n", "+", "<cmd>foldopen<CR>", { desc = "Open fold" })
+
+-- moving code up and down
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
+keymap.set("n", "<A-k>", ":m .-2<CR>==", { desc = "Move current line up" })
+keymap.set("n", "<A-j>", ":m .+1<CR>==", { desc = "Move current line down" })

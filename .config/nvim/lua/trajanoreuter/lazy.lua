@@ -19,7 +19,7 @@ require("lazy").setup({
   { import = "trajanoreuter.plugins.lsp" },
 }, {
   change_detection = {
-    notify = false
+    notify = false,
   },
   checker = {
     enabled = true,
