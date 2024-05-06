@@ -6,4 +6,5 @@ return {
   "fatih/vim-go",
   "mg979/vim-visual-multi", -- enable multiple cursors
   "preservim/tagbar", -- show tags in a window
+  "mbbill/undotree", -- undo tree
 }

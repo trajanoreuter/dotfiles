@@ -17,6 +17,7 @@ return {
       q = { "<cmd>confirm q<CR>", "Quit" },
       r = { name = "Rest" },
       t = { name = "Tab and Window management" },
+      u = { "<cmd>UndotreeToggle<CR>", "UndoTree" },
       x = { name = "Trouble" },
       w = { "<cmd>w!<CR>", "Save" },
     }
