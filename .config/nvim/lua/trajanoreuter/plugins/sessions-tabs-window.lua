@@ -14,12 +14,12 @@ return {
         ["<leader>tr"] = { "<cmd>SessionRestore<CR>", "Restore session for cwd" },
         ["<leader>ts"] = { "<cmd>SessionSave<CR>", "Save session for cwd" },
         -- Window management
-        ["<leader>tv"] = { "<C-w>v", "Split window vertically" },
-        ["<leader>th"] = { "<C-w>s", "Split window horizontally" },
-        ["<leader>te"] = { "<C-w>=", "Equalize window sizes" },
+        ["<leader>twv"] = { "<C-w>v", "Split window vertically" },
+        ["<leader>twh"] = { "<C-w>s", "Split window horizontally" },
+        ["<leader>two"] = { "<C-w>o", "Close all windows except current" },
         ["<leader>twx"] = { "<cmd>close<CR>", "Close current split window" },
-        ["<leader>tho"] = { "<C-w>o", "Close all windows except current" },
-        ["<leader>thq"] = { "<cmd>q<CR>", "Close current window" },
+        ["<leader>twq"] = { "<cmd>q<CR>", "Close current window" },
+        ["<leader>twe"] = { "<C-w>=", "Equalize window sizes" },
         -- Tab management
         ["<leader>to"] = { "<cmd>tabnew<CR>", "Open new tab" },
         ["<leader>tx"] = { "<cmd>tabclose<CR>", "Close current tab" },
