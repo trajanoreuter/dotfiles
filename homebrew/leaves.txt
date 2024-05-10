@@ -26,6 +26,8 @@ tree
 universal-ctags
 warrensbox/tap/tfswitch
 wtfutil
+yarn
 yq
 zellij
+zoxide
 zsh

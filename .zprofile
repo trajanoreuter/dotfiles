@@ -42,3 +42,4 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 # the fuck
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
+eval "$(zoxide init zsh)"
