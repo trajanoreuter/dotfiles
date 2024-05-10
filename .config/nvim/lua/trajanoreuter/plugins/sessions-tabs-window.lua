@@ -27,6 +27,12 @@ return {
         ["<leader>tp"] = { "<cmd>tabp<CR>", "Previous tab" },
         ["<leader>tf"] = { "<cmd>tabnew %<CR>", "Open current buffer in new tab" },
       })
+
+      local keymap = vim.keymap
+      -- naviate between tabs by number
+      for i = 1, 9 do
+        keymap.set("n", "<leader>" .. i, "<cmd>tabnext " .. i .. "<CR>", { desc = "Switch to tab " .. i })
+      end
     end,
   },
   {
