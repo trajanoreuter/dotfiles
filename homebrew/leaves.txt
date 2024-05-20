@@ -1,10 +1,9 @@
 awscli
 bat
 bottom
-cffi
-docutils
 exa
 fd
+fzf
 go
 helm
 incu6us/tap/goimports-reviser
@@ -13,11 +12,13 @@ k9s
 koekeishiya/formulae/skhd
 koekeishiya/formulae/yabai
 kubectx
+libtermkey
 neovim
 nushell
 nvm
+prettyping
 ripgrep
-six
+starship
 stow
 thefuck
 tig
