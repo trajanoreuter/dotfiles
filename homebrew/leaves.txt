@@ -12,6 +12,8 @@ k9s
 koekeishiya/formulae/skhd
 koekeishiya/formulae/yabai
 kubectx
+lazydocker
+lazygit
 libtermkey
 neovim
 nushell
@@ -28,6 +30,7 @@ universal-ctags
 warrensbox/tap/tfswitch
 wtfutil
 yarn
+yazi
 yq
 zellij
 zoxide
