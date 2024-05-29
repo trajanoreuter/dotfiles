@@ -20,9 +20,13 @@ require("lazy").setup({
 }, {
   change_detection = {
     notify = false,
+    enabled = true,
   },
   checker = {
     enabled = true,
     notify = false,
+  },
+  ui = {
+    border = "rounded",
   },
 })
