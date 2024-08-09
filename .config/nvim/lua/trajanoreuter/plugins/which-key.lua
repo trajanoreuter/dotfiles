@@ -1,4 +1,5 @@
 return {
+  -- FIX: configuration deprecated
   "folke/which-key.nvim",
   event = "VeryLazy",
   init = function()

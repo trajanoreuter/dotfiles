@@ -54,6 +54,7 @@ return {
   },
   {
     "lewis6991/gitsigns.nvim",
+    enabled = false,
     event = "BufEnter",
     cmd = "Gitsigns",
     opts = {},
