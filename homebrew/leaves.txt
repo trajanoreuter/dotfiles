@@ -10,7 +10,6 @@ incu6us/tap/goimports-reviser
 jq
 k9s
 koekeishiya/formulae/skhd
-koekeishiya/formulae/yabai
 kubecolor
 kubectx
 lazydocker
