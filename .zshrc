@@ -13,7 +13,12 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # plugins
+# kubectl completions
+source <(kubectl completion zsh)
+compdef kubecolor=kubectl
+#
 zinit light zsh-users/zsh-autosuggestions
+
 zinit light zsh-users/zsh-completions
 zinit light jeffreytse/zsh-vi-mode
 zinit light Aloxaf/fzf-tab
