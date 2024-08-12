@@ -11,10 +11,10 @@ jq
 k9s
 koekeishiya/formulae/skhd
 koekeishiya/formulae/yabai
+kubecolor
 kubectx
 lazydocker
 lazygit
-libtermkey
 neovim
 nushell
 nvm
