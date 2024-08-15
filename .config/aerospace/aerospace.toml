@@ -116,10 +116,7 @@ alt-9 = 'workspace 9'
 alt-b = 'workspace B' # 'b' is reserved for browser
 alt-e = 'workspace E' # 'e' is reserved for everything else that i dont have a dedicated workspace for
 alt-f = 'workspace F' # 'f' is reserved for finder
-<<<<<<< HEAD
-=======
 alt-r = 'workspace R' # 'r' is reserved for meeting rooms
->>>>>>> e35ddf4 (feat: add aerospace)
 alt-s = 'workspace S' # 's' is reserved for slack
 alt-t = 'workspace T' # 't' is reserved for terminal
 alt-m = 'workspace M' # 'm' is reserved for music
@@ -192,7 +189,13 @@ run = 'move-node-to-workspace S'
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
 run = 'move-node-to-workspace M'
+
+[[on-window-detected]]
+if.app-id = 'com.ableton.live'
+run = 'move-node-to-workspace M'
+
 # else
+
 [[on-window-detected]]
 if.app-id = 'com.nordsec.nordpass'
 run = 'move-node-to-workspace E'

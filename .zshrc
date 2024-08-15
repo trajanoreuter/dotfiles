@@ -127,6 +127,18 @@ function kubectlgetall {
   done
 }
 
+function dstop() {
+  docker ps -a | fzf --height 40% --layout=reverse --prompt="Select container to stop: " | awk '{print $1}' | xargs docker stop
+}
+
+function dRemove() {
+  docker ps -a | fzf --height 40% --layout=reverse --prompt="Select container to remove: " | awk '{print $1}' | xargs docker rm
+}
+
+function dRemoveImage() {
+  docker images | fzf --height 40% --layout=reverse --prompt="Select image to remove: " | awk '{print $1}' | xargs docker rmi
+}
+
 eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 eval "$(zoxide init zsh)"

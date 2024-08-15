@@ -32,7 +32,6 @@ return {
     })
 
     telescope.load_extension("fzf")
-    telescope.load_extension("rest")
     telescope.load_extension("notify")
 
     -- set keymaps
