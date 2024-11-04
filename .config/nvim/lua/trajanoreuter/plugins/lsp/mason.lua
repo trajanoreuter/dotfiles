@@ -48,7 +48,7 @@ return {
         "black", -- python formatter
         "pylint", -- python linter
         "eslint_d", -- js linter
-        "golangci-lint", -- go linter
+        -- "golangci-lint", -- go linter
         "yamlfmt", -- yaml formatter
         "yamlfix", -- yaml formatter
       },
