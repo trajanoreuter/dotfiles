@@ -45,7 +45,6 @@ zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps -
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
-alias ls="exa --icons"
 alias man=batman.sh
 alias t=tmux
 alias ping="prettyping"
