@@ -120,6 +120,7 @@ alt-r = 'workspace R' # 'r' is reserved for meeting rooms
 alt-s = 'workspace S' # 's' is reserved for slack
 alt-t = 'workspace T' # 't' is reserved for terminal
 alt-m = 'workspace M' # 'm' is reserved for music
+alt-x = 'workspace X' # 'x' is reserved for extra
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'
@@ -138,6 +139,7 @@ alt-shift-r = 'move-node-to-workspace R'
 alt-shift-s = 'move-node-to-workspace S'
 alt-shift-t = 'move-node-to-workspace T'
 alt-shift-m = 'move-node-to-workspace M'
+alt-shift-x = 'move-node-to-workspace X'
 alt-shift-w = 'fullscreen'
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
@@ -193,6 +195,10 @@ run = 'move-node-to-workspace M'
 [[on-window-detected]]
 if.app-id = 'com.ableton.live'
 run = 'move-node-to-workspace M'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.rdc.macos'
+run = 'move-node-to-workspace X'
 
 # else
 

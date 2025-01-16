@@ -129,11 +129,17 @@ return {
           },
         })
       end,
+      ["kotlin_language_server"] = function()
+        lspconfig["kotlin_language_server"].setup({
+          capabilities = capabilities,
+          filetypes = { "kotlin" },
+        })
+      end,
       ["svelte"] = function()
         -- configure svelte server
         lspconfig["svelte"].setup({
           capabilities = capabilities,
-          on_attach = function(client, bufnr)
+          on_attach = function(client, _)
             vim.api.nvim_create_autocmd("BufWritePost", {
               pattern = { "*.js", "*.ts" },
               callback = function(ctx)

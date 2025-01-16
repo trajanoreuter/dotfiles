@@ -26,7 +26,6 @@ return {
     mason_lspconfig.setup({
       -- list of servers for mason to install
       ensure_installed = {
-        "tsserver",
         "html",
         "cssls",
         "tailwindcss",
@@ -37,6 +36,7 @@ return {
         "prismals",
         "pyright",
         "gopls",
+        "kotlin",
       },
     })
 
@@ -51,6 +51,7 @@ return {
         -- "golangci-lint", -- go linter
         "yamlfmt", -- yaml formatter
         "yamlfix", -- yaml formatter
+        "ktlint", -- kotlin formatter
       },
     })
   end,
