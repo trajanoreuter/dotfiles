@@ -11,6 +11,12 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   })
 end
 
+vim.filetype.add({
+  extension = {
+    ["http"] = "http",
+  },
+})
+
 vim.opt.rtp:prepend(lazypath)
 
 -- Load the plugin
