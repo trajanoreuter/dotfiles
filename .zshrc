@@ -149,3 +149,9 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
