@@ -78,109 +78,82 @@ return {
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
     end
 
-    mason_lspconfig.setup_handlers({
-      -- default handler for installed servers
-      function(server_name)
-        lspconfig[server_name].setup({
-          capabilities = capabilities,
-        })
-      end,
-      ["yamlls"] = function()
-        lspconfig["yamlls"].setup({
-          capabilities = capabilities,
-          settings = {
-            yaml = {
-              format = {
-                enable = true,
-              },
-              hover = true,
-              completion = true,
-              validate = true,
-              schemaStore = {
-                enable = true,
-                url = "https://www.schemastore.org/api/json/catalog.json",
-              },
-              schemas = {
-                ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "/docker-compose.yaml",
-                ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-                ["../path/relative/to/file.yml"] = "/.github/workflows/*",
-                ["/path/from/root/of/project"] = "/.github/workflows/*",
-              },
-            },
+    lspconfig["yamlls"].setup({
+      capabilities = capabilities,
+      settings = {
+        yaml = {
+          format = {
+            enable = true,
           },
-        })
-      end,
-      ["gopls"] = function()
-        -- configure gopls server
-        lspconfig["gopls"].setup({
-          capabilities = capabilities,
-          cmd = { "gopls", "serve" },
-          filetypes = { "go", "gomod", "gomod", "gowork", "gotmpl" },
-          root_dir = lspconfig.util.root_pattern("go.mod", ".git", "go.work"),
-          settings = {
-            gopls = {
-              completeUnimported = true,
-              usePlaceholders = true,
-              analyses = {
-                unusedparams = true,
-              },
-              gofumpt = true,
-            },
+          hover = true,
+          completion = true,
+          validate = true,
+          schemaStore = {
+            enable = true,
+            url = "https://www.schemastore.org/api/json/catalog.json",
           },
-        })
-      end,
-      ["kotlin_language_server"] = function()
-        lspconfig["kotlin_language_server"].setup({
-          capabilities = capabilities,
-          filetypes = { "kotlin" },
-        })
-      end,
-      ["svelte"] = function()
-        -- configure svelte server
-        lspconfig["svelte"].setup({
-          capabilities = capabilities,
-          on_attach = function(client, _)
-            vim.api.nvim_create_autocmd("BufWritePost", {
-              pattern = { "*.js", "*.ts" },
-              callback = function(ctx)
-                -- Here use ctx.match instead of ctx.file
-                client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-              end,
-            })
+          schemas = {
+            ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "/docker-compose.yaml",
+            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+            ["../path/relative/to/file.yml"] = "/.github/workflows/*",
+            ["/path/from/root/of/project"] = "/.github/workflows/*",
+          },
+        },
+      },
+    })
+    lspconfig["gopls"].setup({
+      capabilities = capabilities,
+      cmd = { "gopls", "serve" },
+      filetypes = { "go", "gomod", "gomod", "gowork", "gotmpl" },
+      root_dir = lspconfig.util.root_pattern("go.mod", ".git", "go.work"),
+      settings = {
+        gopls = {
+          completeUnimported = true,
+          usePlaceholders = true,
+          analyses = {
+            unusedparams = true,
+          },
+          gofumpt = true,
+        },
+      },
+    })
+    lspconfig["kotlin_language_server"].setup({
+      capabilities = capabilities,
+      filetypes = { "kotlin" },
+    })
+    lspconfig["lua_ls"].setup({
+      capabilities = capabilities,
+      settings = {
+        Lua = {
+          -- make the language server recognize "vim" global
+          diagnostics = {
+            globals = { "vim" },
+          },
+          completion = {
+            callSnippet = "Replace",
+          },
+        },
+      },
+    })
+    lspconfig["svelte"].setup({
+      capabilities = capabilities,
+      on_attach = function(client, _)
+        vim.api.nvim_create_autocmd("BufWritePost", {
+          pattern = { "*.js", "*.ts" },
+          callback = function(ctx)
+            -- Here use ctx.match instead of ctx.file
+            client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
           end,
         })
       end,
-      ["graphql"] = function()
-        -- configure graphql language server
-        lspconfig["graphql"].setup({
-          capabilities = capabilities,
-          filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
-        })
-      end,
-      ["emmet_ls"] = function()
-        -- configure emmet language server
-        lspconfig["emmet_ls"].setup({
-          capabilities = capabilities,
-          filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
-        })
-      end,
-      ["lua_ls"] = function()
-        -- configure lua server (with special settings)
-        lspconfig["lua_ls"].setup({
-          capabilities = capabilities,
-          settings = {
-            Lua = {
-              -- make the language server recognize "vim" global
-              diagnostics = {
-                globals = { "vim" },
-              },
-              completion = {
-                callSnippet = "Replace",
-              },
-            },
-          },
-        })
-      end,
+    })
+    lspconfig["graphql"].setup({
+      capabilities = capabilities,
+      filetypes = { "graphql", "gql", "svelte", "typescriptreact", "javascriptreact" },
+    })
+    lspconfig["emmet_ls"].setup({
+      capabilities = capabilities,
+      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "svelte" },
     })
   end,
 }
