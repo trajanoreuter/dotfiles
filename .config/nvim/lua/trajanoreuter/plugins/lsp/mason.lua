@@ -27,6 +27,7 @@ return {
       -- list of servers for mason to install
       automatic_enable = false,
       ensure_installed = {
+        "ts_ls",
         "html",
         "vimls",
         "cssls",

@@ -101,6 +101,30 @@ return {
         },
       },
     })
+    lspconfig["ts_ls"].setup({
+      capabilities = capabilities,
+      filetypes = {
+        "typescript",
+        "typescriptreact",
+        "typescript.tsx",
+        "javascript",
+        "javascriptreact",
+        "javascript.jsx",
+      },
+      root_dir = lspconfig.util.root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
+      settings = {
+        typescript = {
+          format = {
+            semicolons = "insert",
+          },
+        },
+        javascript = {
+          format = {
+            semicolons = "insert",
+          },
+        },
+      },
+    })
     lspconfig["gopls"].setup({
       capabilities = capabilities,
       cmd = { "gopls", "serve" },
