@@ -1,19 +1,19 @@
 return {
+  -- GitHub Copilot integration
   {
     "zbirenbaum/copilot-cmp",
-    dependencies = {
-      "zbirenbaum/copilot.lua",
-    },
+    dependencies = { "zbirenbaum/copilot.lua" },
     config = function()
       require("copilot_cmp").setup()
       require("copilot").setup({
-        suggestion = {
-          enabled = false,
-        },
+        suggestion = { enabled = false },
         panel = { enabled = false },
       })
     end,
+    event = "InsertEnter",
   },
+
+  -- LazyGit integration
   {
     "kdheepak/lazygit.nvim",
     cmd = {
@@ -23,39 +23,20 @@ return {
       "LazyGitFilter",
       "LazyGitFilterCurrentFile",
     },
-    -- optional for floating window border decoration
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    -- setting the keybinding for LazyGit with 'keys' is recommended in
-    -- order to load the plugin when the command is run for the first time
+    dependencies = { "nvim-lua/plenary.nvim" },
     keys = {
       { "<leader>gl", "<cmd>LazyGit<cr>", desc = "Open lazy git" },
     },
   },
+
+  -- Git signs in gutter
   {
     "lewis6991/gitsigns.nvim",
-    enabled = false,
-    event = "BufEnter",
-    cmd = "Gitsigns",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {},
     config = function()
       local icons = require("trajanoreuter.icons")
-      local wk = require("which-key")
-      wk.register({
-        ["<leader>gb"] = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", "Blame" },
-        ["<leader>gu"] = {
-          "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-          "Undo Stage Hunk",
-        },
-        ["<leader>gd"] = {
-          "<cmd>Gitsigns diffthis HEAD<cr>",
-          "Git Diff",
-        },
-      })
-
-      local git_signs = require("gitsigns")
-      git_signs.setup({
+      require("gitsigns").setup({
         signs = {
           add = {
             hl = "GitSignsAdd",
@@ -88,10 +69,7 @@ return {
             linehl = "GitSignsChangeLn",
           },
         },
-        watch_gitdir = {
-          interval = 1000,
-          follow_files = true,
-        },
+        watch_gitdir = { interval = 1000, follow_files = true },
         attach_to_untracked = true,
         current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <summary>",
         update_debounce = 200,
@@ -106,60 +84,16 @@ return {
       })
     end,
   },
+
+  -- Copilot Chat
   {
     "CopilotC-Nvim/CopilotChat.nvim",
     branch = "main",
     dependencies = {
-      { "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
-      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+      "zbirenbaum/copilot.lua",
+      "nvim-lua/plenary.nvim",
     },
-    opts = {
-      debug = true, -- Enable debugging
-    },
-  },
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-    dependencies = {
-      "zbirenbaum/copilot-cmp",
-    },
-    config = function()
-      local copilot = require("copilot")
-
-      copilot.setup({
-        panel = {
-          keymap = {
-            jump_next = "<c-j>",
-            jump_prev = "<c-k>",
-            accept = "<c-l>",
-            refresh = "r",
-            open = "<M-CR>",
-          },
-        },
-        suggestion = {
-          enabled = true,
-          auto_trigger = true,
-          keymap = {
-            accept = "<c-l>",
-            next = "<c-j>",
-            prev = "<c-k>",
-            dismiss = "<c-h>",
-          },
-        },
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          help = false,
-          gitcommit = false,
-          gitrebase = false,
-          hgcommit = false,
-          svn = false,
-          cvs = false,
-          ["."] = false,
-        },
-        copilot_node_command = "node",
-      })
-    end,
+    opts = { debug = true },
+    cmd = "CopilotChat",
   },
 }

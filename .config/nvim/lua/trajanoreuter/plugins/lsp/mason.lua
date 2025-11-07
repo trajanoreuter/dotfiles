@@ -1,31 +1,8 @@
 return {
-  "mason-org/mason.nvim",
-  dependencies = {
-    "mason-org/mason-lspconfig.nvim",
-    "WhoIsSethDaniel/mason-tool-installer.nvim",
-  },
-  config = function()
-    -- import mason
-    local mason = require("mason")
-
-    -- import mason-lspconfig
-    local mason_lspconfig = require("mason-lspconfig")
-    local mason_tool_installer = require("mason-tool-installer")
-
-    -- enable mason and configure icons
-    mason.setup({
-      ui = {
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗",
-        },
-      },
-    })
-
-    mason_lspconfig.setup({
+  {
+    "williamboman/mason-lspconfig.nvim",
+    opts = {
       -- list of servers for mason to install
-      automatic_enable = false,
       ensure_installed = {
         "ts_ls",
         "html",
@@ -40,9 +17,26 @@ return {
         "pyright",
         "gopls",
       },
-    })
-
-    mason_tool_installer.setup({
+    },
+    dependencies = {
+      {
+        "williamboman/mason.nvim",
+        opts = {
+          ui = {
+            icons = {
+              package_installed = "✓",
+              package_pending = "➜",
+              package_uninstalled = "✗",
+            },
+          },
+        },
+      },
+      "neovim/nvim-lspconfig",
+    },
+  },
+  {
+    "WhoIsSethDaniel/mason-tool-installer.nvim",
+    opts = {
       ensure_installed = {
         "prettier", -- prettier formatter
         "stylua", -- lua formatter
@@ -55,6 +49,9 @@ return {
         "yamlfix", -- yaml formatter
         "ktlint", -- kotlin formatter
       },
-    })
-  end,
+    },
+    dependencies = {
+      "williamboman/mason.nvim",
+    },
+  },
 }

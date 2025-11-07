@@ -5,24 +5,21 @@ return {
     "JoosepAlviste/nvim-ts-context-commentstring",
   },
   config = function()
-    local wk = require "which-key"
+    local wk = require("which-key")
 
-    wk.register {
-      ["<leader>/"] = { "<Plug>(comment_toggle_linewise_current)", "Comment" },
-    }
-
-    wk.register {
-      ["<leader>/"] = { "<Plug>(comment_toggle_linewise_visual)", "Comment", mode = "v" },
-    }
+    wk.add({
+      { "<leader>/", "<Plug>(comment_toggle_linewise_current)", desc = "Toggle line comment" },
+      { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle line comment", mode = "v" },
+    })
 
     vim.g.skip_ts_context_commentstring_module = true
     ---@diagnostic disable: missing-fields
-    require("ts_context_commentstring").setup {
+    require("ts_context_commentstring").setup({
       enable_autocmd = false,
-    }
+    })
 
     local comment = require("Comment")
-    comment.setup {
+    comment.setup({
       ---Add a space b/w comment and the line
       padding = true,
       ---Whether the cursor should stay at its position
@@ -62,6 +59,6 @@ return {
       pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
       ---Function to call after (un)comment
       -- post_hook = nil,
-    }
+    })
   end,
 }

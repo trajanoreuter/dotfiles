@@ -28,10 +28,10 @@ return {
     end
 
     local wk = require("which-key")
-    wk.register({
-      ["<leader>dt"] = { dap.toggle_breakpoint, "DAP Breakpoint Toggle" },
-      ["<leader>dc"] = { dap.continue, "DAP Continue" },
-      ["<leader>du"] = { dapui.toggle, "DAP UI Toggle" },
+    wk.add({
+      { "<leader>dt", dap.toggle_breakpoint, desc = "DAP Breakpoint Toggle"},
+      { "<leader>dc", dap.continue, desc = "DAP Continue" },
+      { "<leader>du", dapui.toggle, desc = "DAP UI Toggle" },
     })
   end,
 }
