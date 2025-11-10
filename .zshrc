@@ -42,6 +42,7 @@ zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 
 ## aliases
+alias dk="podman"
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
@@ -136,6 +137,12 @@ function dRemove() {
 
 function dRemoveImage() {
   docker images | fzf --height 40% --layout=reverse --prompt="Select image to remove: " | awk '{print $1}' | xargs docker rmi
+}
+
+function syncPodman() {
+  PodmanPath="$(podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}')"
+  DOCKER_HOST="unix://$PodmanPath"
+  export DOCKER_HOST
 }
 
 eval $(thefuck --alias)
