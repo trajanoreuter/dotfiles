@@ -16,6 +16,7 @@ return {
         "prismals",
         "pyright",
         "gopls",
+        "kotlin_language_server",
       },
     },
     dependencies = {
@@ -55,3 +56,4 @@ return {
     },
   },
 }
+

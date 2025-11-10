@@ -42,7 +42,7 @@ zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 
 ## aliases
-alias docker="podman"
+alias op="NODE_TLS_REJECT_UNAUTHORIZED=0 opencode"
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
@@ -63,7 +63,6 @@ alias vi=nvim
 alias v=nvim
 
 # python
-alias python="python3.9"
 alias python='python3'
 alias pip='pip3'
 
@@ -153,12 +152,12 @@ eval "$(starship init zsh)"
 # Added by OrbStack: command-line tools and integration
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"

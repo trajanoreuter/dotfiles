@@ -1,7 +1,7 @@
 awscli
 bat
 bottom
-exa
+docker-compose
 fd
 fzf
 go
@@ -17,6 +17,8 @@ lazygit
 neovim
 nushell
 nvm
+opencode
+podman
 prettyping
 ripgrep
 starship

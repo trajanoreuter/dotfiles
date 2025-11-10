@@ -3,7 +3,7 @@ Repository to save dot files and configurations
 
 ## Install with stow
 ```bash
-stow --target ~/.config .
+stow .
 ```
 
 ## Homebrew installation:

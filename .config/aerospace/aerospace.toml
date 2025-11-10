@@ -55,8 +55,8 @@ on-focus-changed = 'move-mouse window-lazy-center'
 inner.horizontal = 5
 inner.vertical =   5
 outer.left =       5
-outer.bottom =     5
-outer.top =        5
+outer.bottom =     0
+outer.top =        0
 outer.right =      5
 
 # 'main' binding mode declaration
