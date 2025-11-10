@@ -42,7 +42,7 @@ zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 
 ## aliases
-alias dk="podman"
+alias docker="podman"
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
