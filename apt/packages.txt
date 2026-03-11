@@ -1,0 +1,62 @@
+# apt/packages.txt
+# Ubuntu apt packages equivalent to the Homebrew packages in this dotfiles repo.
+# Install with: sudo apt install $(grep -v '^#' packages.txt | grep -v '^$')
+#
+# Notes:
+#   - Some tools are not in apt and require alternative installation methods (see comments).
+#   - macOS-only tools (skhd, etc.) are omitted entirely.
+
+# --- Core utilities (likely already present, but ensure) ---
+curl
+git
+build-essential
+unzip
+
+# --- Shell ---
+zsh
+
+# --- Package equivalents ---
+awscli
+bat
+# bottom: not in apt — install via cargo: cargo install bottom
+#         or snap: snap install bottom
+docker-compose
+fd-find
+# NOTE: fd-find installs the binary as 'fdfind'; add alias: alias fd=fdfind
+fzf
+golang-go
+jq
+# helm: not in apt default — install via snap: snap install helm --classic
+#       or official script: https://helm.sh/docs/intro/install/
+# kubecolor: not in apt — install via go install: go install github.com/hidetatz/kubecolor/cmd/kubecolor@latest
+kubectx
+# lazydocker: not in apt — install via go install: go install github.com/jesseduffield/lazydocker@latest
+#             or release binary: https://github.com/jesseduffield/lazydocker/releases
+# lazygit: not in apt — install via go install: go install github.com/jesseduffield/lazygit@latest
+#          or release binary: https://github.com/jesseduffield/lazygit/releases
+neovim
+# nushell: not in apt — install via cargo: cargo install nu
+#          or release binary: https://github.com/nushellsh/nushell/releases
+# nvm: not in apt — install via curl script (handled by bootstrap):
+#      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+prettyping
+ripgrep
+# starship: not in apt — install via curl script:
+#           curl -sS https://starship.rs/install.sh | sh
+stow
+thefuck
+tig
+tmux
+tree
+universal-ctags
+# yarn: install via npm after nvm/node setup: npm install -g yarn
+#       or via apt (may be outdated): apt install yarn
+# yazi: not in apt — install via cargo: cargo install --locked yazi-fm
+#       or release binary: https://github.com/sxyazi/yazi/releases
+# yq: not in apt — install via snap: snap install yq
+#     or binary: https://github.com/mikefarah/yq/releases
+# zellij: not in apt — install via cargo: cargo install zellij
+#         or release binary: https://github.com/zellij-org/zellij/releases
+# zoxide: available in apt on Ubuntu 22.04+: apt install zoxide
+#         on older Ubuntu: cargo install zoxide
+zoxide
