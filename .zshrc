@@ -161,3 +161,10 @@ if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc' ]; 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# bun completions
+[ -s "/Users/trajanoreuter/.bun/_bun" ] && source "/Users/trajanoreuter/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
