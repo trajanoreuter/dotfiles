@@ -18,14 +18,20 @@ export FZF_DEFAULT_OPTS="
  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # NVM
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 export NVM_DIR="$HOME/.nvm"
-  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+if [[ "$OSTYPE" == darwin* ]]; then
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+fi
 
-export PATH=/opt/homebrew/bin:$PATH
-export PATH=$PATH:/Users/trajanoreuter/bin
+# Homebrew PATH (platform-specific)
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH=/opt/homebrew/bin:$PATH
+elif [[ "$OSTYPE" == linux* ]]; then
+  export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
+fi
+export PATH=$PATH:$HOME/bin
 export EDITOR='nvim'
 export VISUAL='nvim'
 

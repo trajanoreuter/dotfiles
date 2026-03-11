@@ -351,7 +351,7 @@ theme "catppuccin-mocha"
 // The folder in which Zellij will look for themes
 //
 // theme_dir "/path/to/my/theme_dir"
-theme_dir "/Users/trajanoreuter/.config/zellij/themes"
+theme_dir "~/.config/zellij/themes"
 
 // Enable or disable the rendering of styled and colored underlines (undercurl).
 // May need to be disabled for certain unsupported terminals

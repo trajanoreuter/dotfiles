@@ -14,8 +14,10 @@ autoload -Uz _zinit
 
 # plugins
 # kubectl completions
-source <(kubectl completion zsh)
-compdef kubecolor=kubectl
+if command -v kubectl &> /dev/null; then
+  source <(kubectl completion zsh)
+  compdef kubecolor=kubectl
+fi
 #
 zinit light zsh-users/zsh-autosuggestions
 
@@ -29,14 +31,16 @@ zinit light sei40kr/fast-alias-tips-bin
 zinit light sei40kr/zsh-fast-alias-tips
 
 # FZF
- zinit ice from="gh-r" as="command" bpick="*darwin*"
- zinit light junegunn/fzf
- zinit ice lucid wait'0c' as="command" id-as="junegunn/fzf-tmux" pick="bin/fzf-tmux"
- zinit light junegunn/fzf
- zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as="junegunn/fzf_completions" pick="/dev/null"
- zinit light junegunn/fzf
- zinit ice wait="1" lucid
- zinit light Aloxaf/fzf-tab
+if [[ "$OSTYPE" == darwin* ]]; then
+  zinit ice from="gh-r" as="command" bpick="*darwin*"
+else
+  zinit ice from="gh-r" as="command" bpick="*linux*"
+fi
+zinit light junegunn/fzf
+zinit ice lucid wait'0c' as="command" id-as="junegunn/fzf-tmux" pick="bin/fzf-tmux"
+zinit light junegunn/fzf
+zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as="junegunn/fzf_completions" pick="/dev/null"
+zinit light junegunn/fzf
 
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
@@ -144,26 +148,34 @@ function syncPodman() {
   export DOCKER_HOST
 }
 
-eval $(thefuck --alias)
-eval $(thefuck --alias fk)
-eval "$(zoxide init zsh)"
-eval "$(starship init zsh)"
+if command -v thefuck &> /dev/null; then
+  eval $(thefuck --alias)
+  eval $(thefuck --alias fk)
+fi
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
 
-# Added by OrbStack: command-line tools and integration
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+# OrbStack: command-line tools and integration (macOS only)
+if [[ "$OSTYPE" == darwin* ]]; then
+  source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+fi
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/trajanoreuter/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # bun completions
-[ -s "/Users/trajanoreuter/.bun/_bun" ] && source "/Users/trajanoreuter/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
