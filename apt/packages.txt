@@ -15,6 +15,9 @@ unzip
 # --- Shell ---
 zsh
 
+# --- Python (needed by Mason/Neovim for installing Python-based tools) ---
+python3-venv
+
 # --- Package equivalents ---
 # awscli: removed from Ubuntu 24.04 — install via official installer:
 #         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
