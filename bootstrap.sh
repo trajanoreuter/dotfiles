@@ -176,12 +176,23 @@ setup_ubuntu() {
   sudo apt update
   record "apt update completed"
 
-  # 2. apt packages
+  # 2. apt packages (install one-by-one so a missing package doesn't block the rest)
   APT_PACKAGES_FILE="$DOTFILES_DIR/apt/packages.txt"
   if [[ -f "$APT_PACKAGES_FILE" ]]; then
     info "Installing apt packages from apt/packages.txt..."
-    # Filter blank lines and comments, then install
-    grep -v '^\s*#' "$APT_PACKAGES_FILE" | grep -v '^\s*$' | xargs sudo apt install -y
+    while IFS= read -r pkg || [[ -n "$pkg" ]]; do
+      # Skip blank lines and comments
+      [[ -z "$pkg" || "$pkg" =~ ^[[:space:]]*# ]] && continue
+      # Trim whitespace
+      pkg="$(echo "$pkg" | xargs)"
+      [[ -z "$pkg" ]] && continue
+      if dpkg -s "$pkg" &>/dev/null; then
+        skip "apt: $pkg (already installed)"
+      else
+        info "apt install $pkg"
+        sudo apt install -y "$pkg" || error "Failed to install $pkg — continuing"
+      fi
+    done < "$APT_PACKAGES_FILE"
     record "apt packages installed"
   else
     skip "apt/packages.txt not found — skipping apt package install"

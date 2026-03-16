@@ -16,11 +16,13 @@ unzip
 zsh
 
 # --- Package equivalents ---
-awscli
+# awscli: removed from Ubuntu 24.04 — install via official installer:
+#         curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+#         unzip awscliv2.zip && sudo ./aws/install
 bat
 # bottom: not in apt — install via cargo: cargo install bottom
 #         or snap: snap install bottom
-docker-compose
+docker-compose-v2
 fd-find
 # NOTE: fd-find installs the binary as 'fdfind'; add alias: alias fd=fdfind
 fzf
@@ -39,7 +41,8 @@ neovim
 #          or release binary: https://github.com/nushellsh/nushell/releases
 # nvm: not in apt — install via curl script (handled by bootstrap):
 #      curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
-prettyping
+# prettyping: not in Ubuntu repos — install manually:
+#             curl -O https://raw.githubusercontent.com/denilsonsa/prettyping/master/prettyping && chmod +x prettyping && sudo mv prettyping /usr/local/bin/
 ripgrep
 # starship: not in apt — install via curl script:
 #           curl -sS https://starship.rs/install.sh | sh
