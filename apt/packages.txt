@@ -36,7 +36,8 @@ kubectx
 #             or release binary: https://github.com/jesseduffield/lazydocker/releases
 # lazygit: not in apt — install via go install: go install github.com/jesseduffield/lazygit@latest
 #          or release binary: https://github.com/jesseduffield/lazygit/releases
-neovim
+# neovim: apt ships 0.9.x which is too old for modern plugins (need 0.11+).
+#         Installed from GitHub releases in bootstrap.sh instead.
 # nushell: not in apt — install via cargo: cargo install nu
 #          or release binary: https://github.com/nushellsh/nushell/releases
 # nvm: not in apt — install via curl script (handled by bootstrap):

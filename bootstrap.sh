@@ -65,6 +65,8 @@ ${BOLD}WHAT HAPPENS${RESET}
 
   Ubuntu/Linux:
     • Runs: sudo apt update && sudo apt install from apt/packages.txt
+    • Installs Neovim from GitHub releases (apt version is too old)
+    • Installs nvm and Node.js 22 LTS
     • Installs Linuxbrew (if missing)
     • Installs packages from homebrew/leaves-linux.txt (if present)
 
@@ -208,11 +210,48 @@ setup_ubuntu() {
     skip "apt/packages.txt not found — skipping apt package install"
   fi
 
-  # 3. Linuxbrew
+  # 3. Neovim (apt version is too old; install from GitHub releases)
+  if command -v nvim &>/dev/null && nvim --version | head -1 | grep -qE 'v0\.(1[1-9]|[2-9][0-9])'; then
+    skip "Neovim already installed ($(nvim --version | head -1))"
+  else
+    info "Installing latest Neovim from GitHub releases..."
+    NVIM_ARCH="$(uname -m)"
+    curl -Lo /tmp/nvim-linux-"$NVIM_ARCH".tar.gz \
+      "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-${NVIM_ARCH}.tar.gz"
+    sudo rm -rf /opt/nvim-linux-"$NVIM_ARCH"
+    sudo tar -C /opt -xzf /tmp/nvim-linux-"$NVIM_ARCH".tar.gz
+    sudo ln -sf /opt/nvim-linux-"$NVIM_ARCH"/bin/nvim /usr/local/bin/nvim
+    rm -f /tmp/nvim-linux-"$NVIM_ARCH".tar.gz
+    success "Neovim installed ($(nvim --version | head -1))"
+    record "Neovim installed from GitHub releases"
+  fi
+
+  # 4. nvm (Node Version Manager)
+  export NVM_DIR="$HOME/.nvm"
+  if [[ -s "$NVM_DIR/nvm.sh" ]]; then
+    skip "nvm already installed"
+    . "$NVM_DIR/nvm.sh"
+  else
+    info "Installing nvm..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    . "$NVM_DIR/nvm.sh"
+    success "nvm installed"
+    record "nvm installed"
+  fi
+  if ! nvm ls 22 &>/dev/null; then
+    info "Installing Node.js 22 LTS via nvm..."
+    nvm install 22
+    nvm alias default 22
+    success "Node.js $(node --version) installed"
+    record "Node.js 22 LTS installed via nvm"
+  else
+    skip "Node.js 22 already installed via nvm"
+  fi
+
+  # 5. Linuxbrew
   if ! command -v brew &>/dev/null; then
     info "Installing Linuxbrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    # Add brew to PATH for the rest of this script
     if [[ -d "$HOME/.linuxbrew" ]]; then
       eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
     elif [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
@@ -222,7 +261,6 @@ setup_ubuntu() {
     record "Linuxbrew installed"
   else
     skip "Homebrew/Linuxbrew already installed ($(brew --version | head -1))"
-    # Ensure brew is on PATH
     if [[ -d "$HOME/.linuxbrew" ]]; then
       eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
     elif [[ -d "/home/linuxbrew/.linuxbrew" ]]; then
@@ -230,7 +268,7 @@ setup_ubuntu() {
     fi
   fi
 
-  # 4. Linuxbrew packages (if leaves-linux.txt exists)
+  # 6. Linuxbrew packages (if leaves-linux.txt exists)
   LINUX_LEAVES_FILE="$DOTFILES_DIR/homebrew/leaves-linux.txt"
   if [[ -f "$LINUX_LEAVES_FILE" ]] && command -v brew &>/dev/null; then
     info "Installing Linuxbrew packages from homebrew/leaves-linux.txt..."
