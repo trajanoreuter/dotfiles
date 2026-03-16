@@ -74,6 +74,7 @@ ${BOLD}WHAT HAPPENS${RESET}
     • Installs GNU Stow (if missing)
     • Runs stow . to symlink dotfiles into \$HOME
     • Runs scripts/bun.sh, scripts/sdkman.sh, scripts/xh.sh
+    • Installs tools from GitHub releases (k9s, zellij, wtfutil, yazi, bottom, bat-extras, nushell)
     • Installs TPM (tmux plugin manager)
 
 ${BOLD}NOTES${RESET}
@@ -366,6 +367,34 @@ setup_common() {
     record "xh installed"
   else
     skip "xh already installed ($(xh --version 2>/dev/null || echo 'unknown version'))"
+  fi
+
+  # 7. Tools installed from GitHub releases (Linux only, Homebrew handles macOS)
+  if [[ "$PLATFORM" != "macos" ]]; then
+    for tool_entry in \
+      "k9s:k9s" \
+      "zellij:zellij" \
+      "wtfutil:wtfutil" \
+      "yazi:yazi" \
+      "btm:bottom" \
+      "batman:bat-extras" \
+      "nu:nushell"; do
+      tool_cmd="${tool_entry%%:*}"
+      tool_script="${tool_entry##*:}"
+      script_path="$DOTFILES_DIR/scripts/${tool_script}.sh"
+      if ! command -v "$tool_cmd" &>/dev/null; then
+        if [[ -f "$script_path" ]]; then
+          info "Installing $tool_script..."
+          bash "$script_path"
+          success "$tool_script installed"
+          record "$tool_script installed"
+        else
+          skip "scripts/${tool_script}.sh not found — skipping"
+        fi
+      else
+        skip "$tool_script already installed"
+      fi
+    done
   fi
 
   # 6. TPM — tmux plugin manager

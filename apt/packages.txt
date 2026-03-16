@@ -64,3 +64,10 @@ universal-ctags
 # zoxide: available in apt on Ubuntu 22.04+: apt install zoxide
 #         on older Ubuntu: cargo install zoxide
 zoxide
+# k9s: not in apt — install via script: scripts/k9s.sh
+# zellij: not in apt — install via script: scripts/zellij.sh
+# wtfutil: not in apt — install via script: scripts/wtfutil.sh
+# yazi: not in apt — install via script: scripts/yazi.sh
+# bottom: not in apt — install via script: scripts/bottom.sh
+# bat-extras (batman): not in apt — install via script: scripts/bat-extras.sh
+# nushell: not in apt — install via script: scripts/nushell.sh

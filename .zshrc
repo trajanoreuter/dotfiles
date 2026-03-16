@@ -63,7 +63,7 @@ alias op="NODE_TLS_REJECT_UNAUTHORIZED=0 opencode"
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
-alias man=batman.sh
+alias man=batman
 alias t=tmux
 alias ping="prettyping"
 alias rens="source ~/.zshrc"
