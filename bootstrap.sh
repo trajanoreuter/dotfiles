@@ -26,6 +26,15 @@ CYAN='\033[0;36m'
 BOLD='\033[1m'
 RESET='\033[0m'
 
+# ─── Error Logging ──────────────────────────────────────────────────────────
+DOTFILES_DIR_EARLY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ERRORS_DIR="$DOTFILES_DIR_EARLY/.errors"
+mkdir -p "$ERRORS_DIR"
+ERROR_LOG="$ERRORS_DIR/bootstrap-$(date '+%Y%m%d-%H%M%S').log"
+
+# Tee stderr to both terminal and log file
+exec 2> >(tee -a "$ERROR_LOG" >&2)
+
 # ─── Helpers ─────────────────────────────────────────────────────────────────
 info()    { printf "${CYAN}[INFO]${RESET}  %s\n" "$*"; }
 success() { printf "${GREEN}[OK]${RESET}    %s\n" "$*"; }
@@ -78,8 +87,9 @@ if [[ "${1:-}" == "--help" ]]; then
 fi
 
 # ─── Resolve dotfiles directory ───────────────────────────────────────────────
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES_DIR="$DOTFILES_DIR_EARLY"
 info "Dotfiles directory: $DOTFILES_DIR"
+info "Error log: $ERROR_LOG"
 
 # ─── OS Detection ────────────────────────────────────────────────────────────
 header "Detecting OS"
@@ -363,3 +373,7 @@ esac
 
 setup_common
 print_summary
+
+if [[ ! -s "$ERROR_LOG" ]]; then
+  rm -f "$ERROR_LOG"
+fi

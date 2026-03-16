@@ -50,3 +50,4 @@ vscode-java-test/
 .config/thefuck
 
 .DS_STORE
+.errors/
