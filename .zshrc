@@ -149,8 +149,8 @@ function syncPodman() {
 }
 
 if command -v thefuck &> /dev/null; then
-  eval $(thefuck --alias)
-  eval $(thefuck --alias fk)
+  eval $(thefuck --alias 2>/dev/null)
+  eval $(thefuck --alias fk 2>/dev/null)
 fi
 if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
