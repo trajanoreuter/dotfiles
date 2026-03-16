@@ -30,7 +30,7 @@ golang-go
 jq
 # helm: not in apt default — install via snap: snap install helm --classic
 #       or official script: https://helm.sh/docs/intro/install/
-# kubecolor: not in apt — install via go install: go install github.com/hidetatz/kubecolor/cmd/kubecolor@latest
+# kubecolor: not in apt — install via go install: go install github.com/kubecolor/kubecolor@latest
 kubectx
 # lazydocker: not in apt — install via go install: go install github.com/jesseduffield/lazydocker@latest
 #             or release binary: https://github.com/jesseduffield/lazydocker/releases
