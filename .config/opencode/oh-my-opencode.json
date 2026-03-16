@@ -2,25 +2,37 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "opencode/glm-4.7-free"
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "sisyphus-junior": {
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "build": {
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "plan": {
+      "model": "github-copilot/claude-opus-4.6"
+    },
+    "prometheus": {
+      "model": "github-copilot/claude-opus-4.6"
     },
     "librarian": {
-      "model": "opencode/glm-4.7-free"
+      "model": "github-copilot/claude-opus-4.6"
     },
     "explore": {
-      "model": "opencode/glm-4.7-free"
+      "model": "github-copilot/claude-opus-4.6"
     },
     "oracle": {
-      "model": "opencode/glm-4.7-free"
+      "model": "github-copilot/claude-opus-4.6"
     },
-    "frontend-ui-ux-engineer": {
-      "model": "opencode/glm-4.7-free"
+    "metis": {
+      "model": "github-copilot/claude-opus-4.6"
     },
-    "document-writer": {
-      "model": "opencode/glm-4.7-free"
+    "momus": {
+      "model": "github-copilot/claude-opus-4.6"
     },
     "multimodal-looker": {
-      "model": "opencode/glm-4.7-free"
+      "model": "github-copilot/claude-opus-4.6"
     }
   }
 }

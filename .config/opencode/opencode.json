@@ -1,6 +1,23 @@
 {
-  "plugin": [
-    "oh-my-opencode"
-  ],
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["oh-my-opencode"],
+  "model": "github-copilot/claude-opus-4.6",
+  "small_model": "github-copilot/claude-opus-4.6",
+  "autoupdate": "notify",
+  "snapshot": true,
+  "share": "manual",
+  "watcher": {
+    "ignore": [
+      "node_modules",
+      ".git",
+      "dist",
+      "build",
+      ".next",
+      ".turbo",
+      "coverage",
+      ".cache",
+      "tmp",
+      ".tmp"
+    ]
+  }
 }
