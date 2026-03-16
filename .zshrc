@@ -26,8 +26,10 @@ zinit light jeffreytse/zsh-vi-mode
 zinit light Aloxaf/fzf-tab
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-zinit ice from'gh-r' as'program'
+zinit ice from'gh-r' as'program' mv'def-matcher -> alias-matcher'
 zinit light sei40kr/fast-alias-tips-bin
+zinit ice atclone'mkdir -p target/release && ln -sf ../../../sei40kr---fast-alias-tips-bin/alias-matcher target/release/alias-matcher' \
+  atpull'%atclone'
 zinit light sei40kr/zsh-fast-alias-tips
 
 # FZF

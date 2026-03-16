@@ -31,7 +31,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 elif [[ "$OSTYPE" == linux* ]]; then
   export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 fi
-export PATH=$PATH:$HOME/bin
+export PATH=$PATH:$HOME/bin:$HOME/.opencode/bin
 export EDITOR='nvim'
 export VISUAL='nvim'
 
