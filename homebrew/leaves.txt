@@ -1,11 +1,13 @@
 awscli
 bat
+bat-extras
 bottom
 docker-compose
 fd
 fzf
 go
 helm
+htop
 incu6us/tap/goimports-reviser
 jq
 k9s

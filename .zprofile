@@ -12,7 +12,7 @@ export FZF_DEFAULT_OPTS="
  --prompt='λ -> '
  --pointer='|>'
  --marker='✓'
- --bind 'ctrl-e:execute(nvim {} < /dev/tty > /dev/tty 2>&1)' > selected
+ --bind 'ctrl-e:execute(nvim {} < /dev/tty > /dev/tty 2>&1)'
  --bind 'ctrl-v:execute(code {+})'"
  export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'
  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -31,7 +31,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 elif [[ "$OSTYPE" == linux* ]]; then
   export PATH=/home/linuxbrew/.linuxbrew/bin:$PATH
 fi
-export PATH=$PATH:$HOME/bin:$HOME/.opencode/bin:$HOME/go/bin
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:$HOME/.opencode/bin:$HOME/go/bin
 export EDITOR='nvim'
 export VISUAL='nvim'
 

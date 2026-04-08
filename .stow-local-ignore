@@ -7,3 +7,5 @@
 ^bg$
 ^apt$
 ^\.errors$
+^bootstrap\.sh$
+^\.stow-local-ignore$

@@ -158,7 +158,7 @@ setup_macos() {
         skip "brew: $pkg (already installed)"
       else
         info "brew install $pkg"
-        brew install "$pkg" || error "Failed to install $pkg — continuing"
+        brew install "$pkg" </dev/null || error "Failed to install $pkg — continuing"
       fi
     done < "$LEAVES_FILE"
     record "Homebrew packages installed from leaves.txt"
@@ -203,7 +203,7 @@ setup_ubuntu() {
         skip "apt: $pkg (already installed)"
       else
         info "apt install $pkg"
-        sudo apt install -y "$pkg" || error "Failed to install $pkg — continuing"
+        sudo apt install -y "$pkg" </dev/null || error "Failed to install $pkg — continuing"
       fi
     done < "$APT_PACKAGES_FILE"
     record "apt packages installed"
@@ -280,7 +280,7 @@ setup_ubuntu() {
         skip "brew: $pkg (already installed)"
       else
         info "brew install $pkg"
-        brew install "$pkg" || error "Failed to install $pkg — continuing"
+        brew install "$pkg" </dev/null || error "Failed to install $pkg — continuing"
       fi
     done < "$LINUX_LEAVES_FILE"
     record "Linuxbrew packages installed from leaves-linux.txt"
@@ -311,11 +311,11 @@ setup_common() {
 
   # 2. Stow dotfiles
   header "Stowing Dotfiles"
-  info "Running: stow . (from $DOTFILES_DIR)"
+  info "Running: stow --restow . (from $DOTFILES_DIR)"
   # Use --restow to be safe on re-runs; conflicts will error out with set -e
   # Temporarily disable set -e so we can give a useful message on conflict
   set +e
-  stow_output=$(cd "$DOTFILES_DIR" && stow . 2>&1)
+  stow_output=$(cd "$DOTFILES_DIR" && stow --restow . 2>&1)
   stow_exit=$?
   set -e
   if [[ $stow_exit -eq 0 ]]; then
