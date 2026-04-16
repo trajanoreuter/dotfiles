@@ -110,10 +110,15 @@ alias grhh='git reset HEAD --hard'
    echo $(git remote -v | cut -d':' -f 2)
  }
 
-## SSM CONFIGS
-function aws-ssm-instance-list {
-  output=$(aws ssm describe-instance-information --profile "$AWS_PROFILE" --query "InstanceInformationList[*].{Name:ComputerName,Id:InstanceId,IPAddress:IPAddress}" --output text)
-  echo "$output"
+# Usage `aws-login <PROFILE>`
+function aws-login() {
+  local creds
+  creds=$(aws configure export-credentials --profile $1 --format env 2>/dev/null)
+  if [ $? -ne 0 ]; then
+    aws sso login --profile $1
+    creds=$(aws configure export-credentials --profile $1 --format env)
+  fi
+  eval "$creds"
 }
 
 function aws-list-ec2 {
