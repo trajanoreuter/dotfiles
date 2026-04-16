@@ -114,6 +114,7 @@ alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-b = 'workspace B' # 'b' is reserved for browser
+alt-d = 'workspace D' # 'd' is reserved for discord
 alt-e = 'workspace E' # 'e' is reserved for everything else that i dont have a dedicated workspace for
 alt-f = 'workspace F' # 'f' is reserved for finder
 alt-r = 'workspace R' # 'r' is reserved for meeting rooms
@@ -133,6 +134,7 @@ alt-shift-7 = 'move-node-to-workspace 7'
 alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-b = 'move-node-to-workspace B'
+alt-shift-d = 'move-node-to-workspace D'
 alt-shift-e = 'move-node-to-workspace E'
 alt-shift-f = 'move-node-to-workspace F'
 alt-shift-r = 'move-node-to-workspace R'
@@ -200,8 +202,11 @@ run = 'move-node-to-workspace M'
 if.app-id = 'com.microsoft.rdc.macos'
 run = 'move-node-to-workspace X'
 
-# else
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = 'move-node-to-workspace D'
 
+# else
 [[on-window-detected]]
 if.app-id = 'com.nordsec.nordpass'
 run = 'move-node-to-workspace E'
