@@ -2,10 +2,10 @@
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/master/assets/oh-my-opencode.schema.json",
   "agents": {
     "sisyphus": {
-      "model": "github-copilot/claude-opus-4.7"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "sisyphus-junior": {
-      "model": "github-copilot/claude-opus-4.7"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "build": {
       "model": "github-copilot/gpt-5.3-codex"
@@ -26,7 +26,7 @@
       "model": "github-copilot/gpt-5.4"
     },
     "metis": {
-      "model": "github-copilot/claude-opus-4.7"
+      "model": "github-copilot/claude-sonnet-4.6"
     },
     "momus": {
       "model": "github-copilot/gpt-5.3-codex"
