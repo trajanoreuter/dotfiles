@@ -160,6 +160,54 @@ function syncPodman() {
   export DOCKER_HOST
 }
 
+function unset-envs() {
+  local vars=$(env | sed -n "s/^\($1[^=]*\)=.*/\1/p")
+  if [ -n "$vars" ]; then
+    echo "Unsetting environment variables matching: $1"
+    echo "$vars"
+    unset ${(f)vars}
+  else
+    echo "No environment variables found matching: $1"
+  fi
+}
+
+function ytd3() {
+  local download_dir="/Users/trajanoreuter/Music/Downloads"
+
+  if (( $# != 1 )); then
+    echo "Usage: ytd3 <youtube-url>" >&2
+    return 2
+  fi
+
+  yt-dlp \
+    --no-playlist \
+    --extract-audio \
+    --audio-format mp3 \
+    --audio-quality 0 \
+    --embed-thumbnail \
+    --add-metadata \
+    -o "$download_dir/%(title)s.%(ext)s" \
+    -- \
+    "$1"
+}
+
+function ytd4() {
+  local download_dir="/Users/trajanoreuter/Music/Downloads"
+
+  if (( $# != 1 )); then
+    echo "Usage: ytd4 <youtube-url>" >&2
+    return 2
+  fi
+
+  yt-dlp \
+    --no-playlist \
+    --format "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b" \
+    --merge-output-format mp4 \
+    -o "$download_dir/%(title)s.%(ext)s" \
+    -- \
+    "$1"
+}
+
 if command -v thefuck &> /dev/null; then
   eval $(thefuck --alias 2>/dev/null)
   eval $(thefuck --alias fk 2>/dev/null)
