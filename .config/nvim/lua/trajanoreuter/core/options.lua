@@ -49,7 +49,7 @@ opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift 
 opt.wrap = false -- display lines as one long line
 opt.scrolloff = 0
 opt.sidescrolloff = 8
-opt.spelllang = { "en_us" }
+opt.spelllang = { "en_us", "pt_br" }
 opt.spelloptions = "camel"
 opt.complete:append("kspell")
 
