@@ -11,19 +11,19 @@ return {
 
       local wk = require("which-key")
       wk.add({
-        { "<leader>tr", "<cmd>SessionRestore<CR>", desc = "Restore session for cwd"},
-        { "<leader>ts", "<cmd>SessionSave<CR>", desc = "Save session for cwd"},
-        { "<leader>twv", "<C-w>v", desc = "Split window vertically"},
-        { "<leader>twh", "<C-w>s",  desc = "Split window horizontally"},
-        { "<leader>two", "<C-w>o",  desc = "Close all windows except current"},
-        { "<leader>twx", "<cmd>close<CR>",  desc = "Close current split window"},
-        { "<leader>twq", "<cmd>q<CR>",  desc = "Close current window"},
-        { "<leader>twe", "<C-w>=",  desc = "Equalize window sizes"},
-        { "<leader>to", "<cmd>tabnew<CR>",  desc = "Open new tab"},
-        { "<leader>tx", "<cmd>tabclose<CR>",  desc = "Close current tab"},
-        { "<leader>tn", "<cmd>tabn<CR>",  desc = "Next tab"},
-        { "<leader>tp",  "<cmd>tabp<CR>",  desc = "Previous tab"},
-        { "<leader>tf", "<cmd>tabnew %<CR>",  desc = "Open current buffer in new tab"},
+        { "<leader>tr", "<cmd>SessionRestore<CR>", desc = "Restore session for cwd" },
+        { "<leader>ts", "<cmd>SessionSave<CR>", desc = "Save session for cwd" },
+        { "<leader>twv", "<C-w>v", desc = "Split window vertically" },
+        { "<leader>twh", "<C-w>s", desc = "Split window horizontally" },
+        { "<leader>two", "<C-w>o", desc = "Close all windows except current" },
+        { "<leader>twx", "<cmd>close<CR>", desc = "Close current split window" },
+        { "<leader>twq", "<cmd>q<CR>", desc = "Close current window" },
+        { "<leader>twe", "<C-w>=", desc = "Equalize window sizes" },
+        { "<leader>to", "<cmd>tabnew<CR>", desc = "Open new tab" },
+        { "<leader>tx", "<cmd>tabclose<CR>", desc = "Close current tab" },
+        { "<leader>tn", "<cmd>tabn<CR>", desc = "Next tab" },
+        { "<leader>tp", "<cmd>tabp<CR>", desc = "Previous tab" },
+        { "<leader>tf", "<cmd>tabnew %<CR>", desc = "Open current buffer in new tab" },
       })
 
       local keymap = vim.keymap

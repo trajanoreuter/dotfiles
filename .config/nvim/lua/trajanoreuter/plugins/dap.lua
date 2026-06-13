@@ -29,7 +29,7 @@ return {
 
     local wk = require("which-key")
     wk.add({
-      { "<leader>dt", dap.toggle_breakpoint, desc = "DAP Breakpoint Toggle"},
+      { "<leader>dt", dap.toggle_breakpoint, desc = "DAP Breakpoint Toggle" },
       { "<leader>dc", dap.continue, desc = "DAP Continue" },
       { "<leader>du", dapui.toggle, desc = "DAP UI Toggle" },
     })
