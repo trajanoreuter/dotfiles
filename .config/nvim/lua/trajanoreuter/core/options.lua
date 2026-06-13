@@ -5,7 +5,7 @@ local opt = vim.opt
 opt.relativenumber = true -- Show relative line number
 opt.number = true -- Show current line number
 
--- tabs and identation
+-- tabs and indentation
 opt.tabstop = 2 -- Number of spaces that a <Tab> in the file counts for
 opt.shiftwidth = 2 -- Number of spaces to use for each step of (auto)indent
 opt.expandtab = true -- Use spaces instead of tabs
@@ -24,10 +24,9 @@ opt.cursorline = false -- Highlight the screen line of the cursor with CursorLin
 
 -- turn on terminal colors and bg config
 opt.termguicolors = true
-opt.background = "dark" -- colorschemes that can be light org dark will be always dark
-opt.signcolumn = "no" -- show sign column so that text does not shift
+opt.background = "dark" -- colorschemes that can be light or dark will be always dark
 
--- backscape
+-- backspace
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
@@ -50,6 +49,9 @@ opt.signcolumn = "yes" -- always show the sign column, otherwise it would shift 
 opt.wrap = false -- display lines as one long line
 opt.scrolloff = 0
 opt.sidescrolloff = 8
+opt.spelllang = { "en_us" }
+opt.spelloptions = "camel"
+opt.complete:append("kspell")
 
 -- fold settings
 opt.foldcolumn = "1" -- '0' is not bad

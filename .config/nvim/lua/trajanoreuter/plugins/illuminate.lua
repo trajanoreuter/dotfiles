@@ -16,7 +16,6 @@ return {
         "dirvish",
         "fugitive",
         "alpha",
-        "NvimTree",
         "lazy",
         "Trouble",
         "netrw",
