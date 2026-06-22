@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 # =============================================================================
 # bootstrap.sh — Single entry point for setting up dotfiles on a new machine.
-# Supports macOS (Darwin) and Ubuntu/Debian Linux.
+# Supports macOS (Darwin), Ubuntu/Debian Linux, and Arch Linux.
 #
 # Usage:
 #   ./bootstrap.sh [--help]
 #
 # What it does:
 #   1. Detects the OS
-#   2. Installs OS-specific packages (Homebrew on macOS, apt on Ubuntu)
+#   2. Installs OS-specific packages (Homebrew on macOS, apt on Ubuntu, pacman on Arch)
 #   3. Installs common tools via curl-based installers
 #   4. Symlinks dotfiles using GNU Stow
 #   5. Installs TPM (tmux plugin manager)
@@ -19,12 +19,60 @@
 set -e
 
 # ─── Colors ──────────────────────────────────────────────────────────────────
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-BOLD='\033[1m'
-RESET='\033[0m'
+RED=$'\033[0;31m'
+GREEN=$'\033[0;32m'
+YELLOW=$'\033[1;33m'
+CYAN=$'\033[0;36m'
+BOLD=$'\033[1m'
+RESET=$'\033[0m'
+
+# ─── Help ────────────────────────────────────────────────────────────────────
+show_help() {
+  cat <<EOF
+${BOLD}bootstrap.sh${RESET} — Dotfiles setup for macOS, Ubuntu/Debian, and Arch Linux
+
+${BOLD}USAGE${RESET}
+  ./bootstrap.sh [--help]
+
+${BOLD}OPTIONS${RESET}
+  --help    Show this help message and exit
+
+${BOLD}WHAT HAPPENS${RESET}
+  macOS:
+    • Installs Homebrew (if missing)
+    • Installs packages from homebrew/leaves.txt
+    • Runs scripts/aerospace.sh, scripts/raycast.sh, scripts/fonts.sh
+
+  Ubuntu/Debian:
+    • Runs: sudo apt update && sudo apt install from apt/packages.txt
+    • Installs Neovim from GitHub releases (apt version is too old)
+    • Installs nvm and Node.js 22 LTS
+    • Installs Linuxbrew (if missing)
+    • Installs packages from homebrew/leaves-linux.txt (if present)
+
+  Arch Linux:
+    • Runs: sudo pacman -Syu
+    • Installs packages from arch/packages.txt
+    • Uses pacman for current Neovim and core CLI tools
+
+  Both platforms:
+    • Installs GNU Stow (if missing)
+    • Runs stow . to symlink dotfiles into \$HOME
+    • Runs scripts/bun.sh, scripts/sdkman.sh, scripts/xh.sh
+    • Installs tools from GitHub releases (k9s, zellij, wtfutil, yazi, bottom, bat-extras, nushell)
+    • Installs TPM (tmux plugin manager)
+
+${BOLD}NOTES${RESET}
+  • Idempotent: safe to re-run at any time.
+  • Uses \$HOME and \$USER — no hardcoded paths.
+  • sudo is only invoked for apt/pacman/system install commands on Linux.
+EOF
+}
+
+if [[ "${1:-}" == "--help" ]]; then
+  show_help
+  exit 0
+fi
 
 # ─── Error Logging ──────────────────────────────────────────────────────────
 DOTFILES_DIR_EARLY="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -46,49 +94,6 @@ header()  { printf "\n${BOLD}${CYAN}══ %s ══${RESET}\n" "$*"; }
 STEPS_DONE=()
 record() { STEPS_DONE+=("$1"); }
 
-# ─── Help ────────────────────────────────────────────────────────────────────
-show_help() {
-  cat <<EOF
-${BOLD}bootstrap.sh${RESET} — Dotfiles setup for macOS and Ubuntu
-
-${BOLD}USAGE${RESET}
-  ./bootstrap.sh [--help]
-
-${BOLD}OPTIONS${RESET}
-  --help    Show this help message and exit
-
-${BOLD}WHAT HAPPENS${RESET}
-  macOS:
-    • Installs Homebrew (if missing)
-    • Installs packages from homebrew/leaves.txt
-    • Runs scripts/aerospace.sh, scripts/raycast.sh, scripts/fonts.sh
-
-  Ubuntu/Linux:
-    • Runs: sudo apt update && sudo apt install from apt/packages.txt
-    • Installs Neovim from GitHub releases (apt version is too old)
-    • Installs nvm and Node.js 22 LTS
-    • Installs Linuxbrew (if missing)
-    • Installs packages from homebrew/leaves-linux.txt (if present)
-
-  Both platforms:
-    • Installs GNU Stow (if missing)
-    • Runs stow . to symlink dotfiles into \$HOME
-    • Runs scripts/bun.sh, scripts/sdkman.sh, scripts/xh.sh
-    • Installs tools from GitHub releases (k9s, zellij, wtfutil, yazi, bottom, bat-extras, nushell)
-    • Installs TPM (tmux plugin manager)
-
-${BOLD}NOTES${RESET}
-  • Idempotent: safe to re-run at any time.
-  • Uses \$HOME and \$USER — no hardcoded paths.
-  • sudo is only invoked for apt commands on Linux.
-EOF
-}
-
-if [[ "${1:-}" == "--help" ]]; then
-  show_help
-  exit 0
-fi
-
 # ─── Resolve dotfiles directory ───────────────────────────────────────────────
 DOTFILES_DIR="$DOTFILES_DIR_EARLY"
 info "Dotfiles directory: $DOTFILES_DIR"
@@ -106,7 +111,10 @@ case "$OS" in
     if [[ -f /etc/os-release ]]; then
       # shellcheck source=/dev/null
       . /etc/os-release
-      if [[ "$ID" == "ubuntu" || "$ID_LIKE" == *"ubuntu"* || "$ID_LIKE" == *"debian"* ]]; then
+      if [[ "$ID" == "arch" || "${ID_LIKE:-}" == *"arch"* ]]; then
+        PLATFORM="arch"
+        success "Detected: Arch Linux"
+      elif [[ "$ID" == "ubuntu" || "${ID_LIKE:-}" == *"ubuntu"* || "${ID_LIKE:-}" == *"debian"* ]]; then
         PLATFORM="ubuntu"
         success "Detected: Ubuntu/Debian Linux"
       else
@@ -291,6 +299,39 @@ setup_ubuntu() {
   fi
 }
 
+# ─── Arch Linux Setup ────────────────────────────────────────────────────────
+setup_arch() {
+  header "Arch Linux Setup"
+
+  if ! command -v pacman &>/dev/null; then
+    error "pacman not found, but PLATFORM=arch. Cannot continue Arch setup."
+    exit 1
+  fi
+
+  info "Running sudo pacman -Syu (your sudo password may be required)..."
+  sudo pacman -Syu --needed --noconfirm
+  record "pacman system upgrade completed"
+
+  ARCH_PACKAGES_FILE="$DOTFILES_DIR/arch/packages.txt"
+  if [[ -f "$ARCH_PACKAGES_FILE" ]]; then
+    info "Installing pacman packages from arch/packages.txt..."
+    while IFS= read -r pkg || [[ -n "$pkg" ]]; do
+      [[ -z "$pkg" || "$pkg" =~ ^[[:space:]]*# ]] && continue
+      pkg="$(echo "$pkg" | xargs)"
+      [[ -z "$pkg" ]] && continue
+      if pacman -Qi "$pkg" &>/dev/null; then
+        skip "pacman: $pkg (already installed)"
+      else
+        info "pacman -S $pkg"
+        sudo pacman -S --needed --noconfirm "$pkg" </dev/null || error "Failed to install $pkg — continuing"
+      fi
+    done < "$ARCH_PACKAGES_FILE"
+    record "pacman packages installed"
+  else
+    skip "arch/packages.txt not found — skipping pacman package install"
+  fi
+}
+
 # ─── Common Setup (both platforms) ───────────────────────────────────────────
 setup_common() {
   header "Common Setup"
@@ -300,6 +341,8 @@ setup_common() {
     info "Installing GNU Stow..."
     if [[ "$PLATFORM" == "macos" ]]; then
       brew install stow
+    elif [[ "$PLATFORM" == "arch" ]]; then
+      sudo pacman -S --needed --noconfirm stow
     else
       sudo apt install -y stow
     fi
@@ -433,8 +476,15 @@ case "$PLATFORM" in
   macos)
     setup_macos
     ;;
-  ubuntu | linux)
+  ubuntu)
     setup_ubuntu
+    ;;
+  arch)
+    setup_arch
+    ;;
+  linux)
+    error "Unsupported Linux distribution. Add a platform-specific setup function before running bootstrap."
+    exit 1
     ;;
 esac
 

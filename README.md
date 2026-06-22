@@ -1,6 +1,6 @@
 # dotfiles
 
-Repository to save dot files and configurations. Works on **macOS** and **Ubuntu**.
+Repository to save dot files and configurations. Works on **macOS**, **Ubuntu/Debian**, and **Arch Linux**.
 
 ## Quick Start (Recommended)
 
@@ -11,7 +11,7 @@ cd ~/dotfiles
 ```
 
 The bootstrap script will:
-- Detect your OS (macOS or Ubuntu)
+- Detect your OS (macOS, Ubuntu/Debian, or Arch Linux)
 - Install the appropriate package manager and packages
 - Symlink all configs via GNU Stow
 - Install additional tools (Bun, SDKMAN, TPM, etc.)
@@ -41,6 +41,16 @@ sudo apt install $(grep -v '^#' apt/packages.txt | grep -v '^$')
 > Some tools are not available in apt and need alternative installation.
 > See comments in `apt/packages.txt` for instructions.
 
+### Arch Linux — pacman packages
+```bash
+# Fresh installation
+sudo pacman -Syu
+grep -vE '^\s*(#|$)' arch/packages.txt | xargs sudo pacman -S --needed
+```
+
+> AUR-only tools are not installed by the pacman package list.
+> See comments in `arch/packages.txt` for manual/AUR candidates.
+
 ## Structure
 
 ```
@@ -60,6 +70,8 @@ homebrew/
   leaves.txt        # Homebrew package list (macOS)
 apt/
   packages.txt      # apt package list (Ubuntu)
+arch/
+  packages.txt      # pacman package list (Arch Linux)
 scripts/            # Tool-specific install scripts
 bootstrap.sh        # Automated setup script
 ```

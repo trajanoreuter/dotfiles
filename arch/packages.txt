@@ -1,0 +1,64 @@
+# arch/packages.txt
+# Arch Linux packages equivalent to the Homebrew/Ubuntu packages in this repo.
+# Install with: grep -vE '^\s*(#|$)' arch/packages.txt | xargs sudo pacman -S --needed
+#
+# Only official repo packages are listed here. AUR-only tools are intentionally
+# omitted so bootstrap.sh works on a fresh pacman-only machine.
+
+# --- Core utilities ---
+base-devel
+curl
+git
+unzip
+
+# --- Shell ---
+zsh
+
+# --- Python (needed by Mason/Neovim for Python-based tools) ---
+python
+python-pip
+
+# --- CLI tools ---
+aws-cli
+bat
+bat-extras
+bottom
+ctags
+docker-compose
+fd
+fzf
+go
+helm
+jq
+k9s
+kubectx
+lazydocker
+lazygit
+neovim
+nushell
+podman
+ripgrep
+starship
+stow
+thefuck
+tig
+tmux
+tree
+xh
+yarn
+yazi
+yq
+zellij
+zoxide
+
+# --- Installed by bootstrap scripts instead of pacman ---
+# bun: scripts/bun.sh
+# nvm + Node.js 22: bootstrap.sh curl installer
+# sdkman/kotlin/gradle: bootstrap.sh
+#
+# --- AUR/manual candidates ---
+# kubecolor
+# opencode
+# prettyping
+# tfswitch
+# wtfutil

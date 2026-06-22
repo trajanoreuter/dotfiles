@@ -1,11 +1,15 @@
 \.git
 \.gitignore
+^\.agents$
+^\.codex$
 ^README\.md$
 ^LICENSE$
 ^homebrew$
 ^scripts$
 ^bg$
 ^apt$
+^arch$
+^\.stow-backups$
 ^\.errors$
 ^bootstrap\.sh$
 ^\.stow-local-ignore$
