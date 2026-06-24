@@ -13,12 +13,6 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # plugins
-# kubectl completions
-if command -v kubectl &> /dev/null; then
-  source <(kubectl completion zsh)
-  compdef kubecolor=kubectl
-fi
-#
 zinit light zsh-users/zsh-autosuggestions
 
 zinit light zsh-users/zsh-completions
@@ -43,6 +37,12 @@ autoload -Uz compinit && compinit
 
 # Replay compdef calls that zinit plugins captured before compinit was loaded
 zinit cdreplay -q
+
+# kubectl completions (must come after compinit so `compdef` is defined)
+if command -v kubectl &> /dev/null; then
+  source <(kubectl completion zsh)
+  compdef kubecolor=kubectl
+fi
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
