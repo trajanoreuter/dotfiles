@@ -29,6 +29,7 @@ thefuck
 tig
 tmux
 tree
+tree-sitter-cli
 universal-ctags
 warrensbox/tap/tfswitch
 wtfutil
