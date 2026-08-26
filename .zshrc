@@ -208,6 +208,33 @@ function ytd4() {
     "$1"
 }
 
+function ytdp() {
+  local download_dir="/Users/trajanoreuter/Music/Downloads"
+  local playlist_name="$1"
+  local playlist_url="$2"
+  local target_dir="$download_dir/$playlist_name"
+
+  if (( $# != 2 )); then
+    echo "Usage: ytdp <playlist-folder-name> <playlist-url>" >&2
+    return 2
+  fi
+
+  mkdir -p "$target_dir" || return
+
+  yt-dlp \
+    --yes-playlist \
+    --format "bestaudio/best" \
+    --extract-audio \
+    --audio-format mp3 \
+    --audio-quality 0 \
+    --embed-thumbnail \
+    --add-metadata \
+    --download-archive "$target_dir/.yt-dlp-archive.txt" \
+    -o "$target_dir/%(playlist_index)03d - %(title)s.%(ext)s" \
+    -- \
+    "$playlist_url"
+}
+
 if command -v thefuck &> /dev/null; then
   eval $(thefuck --alias 2>/dev/null)
   eval $(thefuck --alias fk 2>/dev/null)
