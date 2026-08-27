@@ -7,6 +7,7 @@ fd
 fzf
 go
 helm
+herdr
 htop
 incu6us/tap/goimports-reviser
 jq

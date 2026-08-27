@@ -54,6 +54,7 @@ zoxide
 
 # --- Installed by bootstrap scripts instead of pacman ---
 # bun: scripts/bun.sh
+# herdr: scripts/herdr.sh
 # nvm + Node.js 22: bootstrap.sh curl installer
 # sdkman/kotlin/gradle: bootstrap.sh
 #

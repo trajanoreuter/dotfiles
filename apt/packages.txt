@@ -74,3 +74,4 @@ zoxide
 # bottom: not in apt — install via script: scripts/bottom.sh
 # bat-extras (batman): not in apt — install via script: scripts/bat-extras.sh
 # nushell: not in apt — install via script: scripts/nushell.sh
+# herdr: not in apt — install via script: scripts/herdr.sh

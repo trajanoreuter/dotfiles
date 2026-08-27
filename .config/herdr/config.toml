@@ -1,0 +1,121 @@
+# herdr configuration — https://herdr.dev/docs/configuration/
+# Portado a partir de ~/.tmux.conf para manter a mesma interface e os mesmos
+# atalhos. Recarregue um servidor em execução com: herdr server reload-config
+
+onboarding = false
+
+# ---------------------------------------------------------------------------
+# Tema — set -g @catppuccin_flavour 'mocha'
+# ---------------------------------------------------------------------------
+[theme]
+name = "catppuccin"
+
+[theme.custom]
+# Sem sidebar_bg: a sidebar herda o fundo do terminal, preservando o
+# window_background_opacity = 0.85 / macos_window_background_blur do WezTerm.
+panel_bg = "reset"
+accent = "#89b4fa"        # tmux: pane-active-border-style fg=#89b4fa (thm_blue)
+active_row_bg = "#1e1e2e" # thm_bg
+selection_bg = "#313244"  # thm_gray
+red = "#f38ba8"
+green = "#a6e3a1"
+yellow = "#f9e2af"
+blue = "#89b4fa"
+
+# ---------------------------------------------------------------------------
+# Terminal — bind - / bind | usavam -c "#{pane_current_path}"
+# ---------------------------------------------------------------------------
+[terminal]
+new_cwd = "follow"
+shell_mode = "auto"
+
+# ---------------------------------------------------------------------------
+# Keybindings — prefixo C-b, iguais aos do .tmux.conf
+# https://herdr.dev/docs/keyboard/
+# ---------------------------------------------------------------------------
+[keys]
+prefix = "ctrl+b"
+
+# bind h/j/k/l select-pane -L/-D/-U/-R
+# + bind -n M-Left/M-Down/M-Up/M-Right select-pane
+focus_pane_left = ["prefix+h", "alt+left"]
+focus_pane_down = ["prefix+j", "alt+down"]
+focus_pane_up = ["prefix+k", "alt+up"]
+focus_pane_right = ["prefix+l", "alt+right"]
+
+# bind | split-window -h   (divide à direita)
+# bind - split-window -v   (divide abaixo)
+split_vertical = ["prefix+v", "prefix+|"]
+split_horizontal = ["prefix+minus"]
+
+# bind -n S-Left/S-Right previous-window/next-window
+# bind -n M-H/M-L        previous-window/next-window
+previous_tab = ["prefix+p", "shift+left", "alt+shift+h"]
+next_tab = ["prefix+n", "shift+right", "alt+shift+l"]
+
+new_tab = "prefix+c"
+switch_tab = "prefix+1..9"
+close_pane = "prefix+x"
+close_tab = "prefix+shift+x"
+zoom = "prefix+z"
+detach = "prefix+q"
+resize_mode = "prefix+r"
+toggle_sidebar = "prefix+b"
+reload_config = "prefix+shift+r" # tmux-sensible: bind R source-file
+
+# vim-tmux-navigator: <C-h/j/k/l> sem prefixo, com guarda "is_vim".
+# O script decide entre repassar a tecla ao (n)vim ou mover o foco do pane.
+[[keys.command]]
+key = "ctrl+h"
+type = "shell"
+command = "~/.config/herdr/scripts/navigator.sh left"
+description = "navigate left (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "shell"
+command = "~/.config/herdr/scripts/navigator.sh down"
+description = "navigate down (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "shell"
+command = "~/.config/herdr/scripts/navigator.sh up"
+description = "navigate up (vim-aware)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "shell"
+command = "~/.config/herdr/scripts/navigator.sh right"
+description = "navigate right (vim-aware)"
+
+# ---------------------------------------------------------------------------
+# UI — espelha a status bar do catppuccin-tmux
+# ---------------------------------------------------------------------------
+[ui]
+# set-option -g status-position top
+tab_bar_position = "top"
+
+# set -g mouse on
+mouse_capture = true
+copy_on_select = true
+
+# tmux-style: divisores internos, sem moldura externa, sem scrollbars
+pane_borders = true
+pane_outer_borders = false
+pane_gaps = false
+pane_scrollbars = false
+
+# prefix c cria a janela na hora no tmux
+prompt_new_tab_name = false
+
+accent = "#89b4fa"
+window_title = "{workspace}: {tab}"
+
+# @catppuccin_status_modules_right "directory session"
+tab_bar_right = [
+  { type = "zoom" },
+  { type = "command", command = "printf '%s' \"${HERDR_ACTIVE_PANE_CWD:-$PWD}\" | rev | cut -d/ -f-2 | rev", interval_seconds = 2, timeout_seconds = 2 },
+  { type = "hostname" },
+]
+tab_bar_right_separator = " "

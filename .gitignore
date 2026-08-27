@@ -49,6 +49,15 @@ vscode-java-test/
 .config/raycast/extensions
 .config/thefuck
 
+# herdr runtime state (~/.config is a symlink into this repo)
+.config/herdr/*.log
+.config/herdr/*.log.*
+.config/herdr/*.sock
+.config/herdr/session.json
+.config/herdr/.plugins.lock
+.config/herdr/sessions/
+.config/herdr/plugins/
+
 .DS_STORE
 .errors/
 .stow-backups/

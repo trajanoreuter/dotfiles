@@ -2,7 +2,7 @@
 
 return {
   "nvim-lua/plenary.nvim", -- lua functions that many plugins use
-  "christoomey/vim-tmux-navigator", -- tmux & split window navigation
+  "christoomey/vim-tmux-navigator", -- navegacao entre splits sob tmux (no herdr quem cuida disso e core/herdr.lua)
   "fatih/vim-go",
   "mg979/vim-visual-multi", -- enable multiple cursors
   "preservim/tagbar", -- show tags in a window

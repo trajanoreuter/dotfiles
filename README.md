@@ -59,6 +59,7 @@ grep -vE '^\s*(#|$)' arch/packages.txt | xargs sudo pacman -S --needed
 .tmux.conf          # Tmux config (TPM, catppuccin, keybindings)
 .wezterm.lua        # WezTerm terminal config
 .config/
+  herdr/            # Herdr multiplexer (catppuccin, keybindings do tmux)
   nvim/             # Neovim config (lazy.nvim)
   starship/         # Starship prompt
   zellij/           # Zellij multiplexer

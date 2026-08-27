@@ -417,6 +417,7 @@ setup_common() {
     for tool_entry in \
       "k9s:k9s" \
       "zellij:zellij" \
+      "herdr:herdr" \
       "wtfutil:wtfutil" \
       "yazi:yazi" \
       "btm:bottom" \
