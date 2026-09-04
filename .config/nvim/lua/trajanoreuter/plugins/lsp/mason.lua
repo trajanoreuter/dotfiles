@@ -2,6 +2,11 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     opts = {
+      -- stylua e so formatter (conform); o stylua do mason nao tem `--lsp` e o auto-enable
+      -- do nvim-lspconfig quebrava com "Client stylua quit with exit code 2"
+      automatic_enable = {
+        exclude = { "stylua" },
+      },
       -- list of servers for mason to install
       ensure_installed = {
         "ts_ls",

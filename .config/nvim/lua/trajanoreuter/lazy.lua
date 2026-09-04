@@ -35,4 +35,7 @@ require("lazy").setup({
   ui = {
     border = "rounded",
   },
+  rocks = {
+    enabled = false, -- nenhum plugin precisa de luarocks
+  },
 })
