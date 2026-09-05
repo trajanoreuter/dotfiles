@@ -5,22 +5,19 @@
 onboarding = false
 
 # ---------------------------------------------------------------------------
-# Tema — set -g @catppuccin_flavour 'mocha'
+# Tema — "terminal" usa a paleta ANSI do próprio terminal, então o herdr
+# acompanha o tema do sistema no Omarchy (omarchy theme set) e o color_scheme
+# do WezTerm no macOS. Para voltar ao catppuccin fixo: name = "catppuccin" e
+# accent = "#89b4fa" em [theme.custom]/[ui].
 # ---------------------------------------------------------------------------
 [theme]
-name = "catppuccin"
+name = "terminal"
 
 [theme.custom]
-# Sem sidebar_bg: a sidebar herda o fundo do terminal, preservando o
-# window_background_opacity = 0.85 / macos_window_background_blur do WezTerm.
-panel_bg = "reset"
-accent = "#89b4fa"        # tmux: pane-active-border-style fg=#89b4fa (thm_blue)
-active_row_bg = "#1e1e2e" # thm_bg
-selection_bg = "#313244"  # thm_gray
-red = "#f38ba8"
-green = "#a6e3a1"
-yellow = "#f9e2af"
-blue = "#89b4fa"
+# A aba ativa é desenhada com texto panel_bg sobre o accent, então panel_bg
+# precisa ser escuro; "black" é o ANSI 0, que nos temas do Omarchy é a cor de
+# fundo do terminal.
+panel_bg = "black"
 
 # ---------------------------------------------------------------------------
 # Terminal — bind - / bind | usavam -c "#{pane_current_path}"
@@ -109,7 +106,7 @@ pane_scrollbars = false
 # prefix c cria a janela na hora no tmux
 prompt_new_tab_name = false
 
-accent = "#89b4fa"
+accent = "blue"
 window_title = "{workspace}: {tab}"
 
 # @catppuccin_status_modules_right "directory session"

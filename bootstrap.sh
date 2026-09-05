@@ -308,9 +308,15 @@ setup_arch() {
     exit 1
   fi
 
-  info "Running sudo pacman -Syu (your sudo password may be required)..."
-  sudo pacman -Syu --needed --noconfirm
-  record "pacman system upgrade completed"
+  if [[ -d /usr/share/omarchy ]]; then
+    # Omarchy has its own update flow (omarchy update); only sync the package db.
+    skip "Omarchy detected — skipping full system upgrade (use 'omarchy update')"
+    sudo pacman -Sy
+  else
+    info "Running sudo pacman -Syu (your sudo password may be required)..."
+    sudo pacman -Syu --needed --noconfirm
+    record "pacman system upgrade completed"
+  fi
 
   ARCH_PACKAGES_FILE="$DOTFILES_DIR/arch/packages.txt"
   if [[ -f "$ARCH_PACKAGES_FILE" ]]; then
@@ -330,6 +336,37 @@ setup_arch() {
   else
     skip "arch/packages.txt not found — skipping pacman package install"
   fi
+}
+
+# ─── Stow conflict handling ──────────────────────────────────────────────────
+# Pre-existing regular files in $HOME (e.g. the defaults Omarchy ships for nvim,
+# herdr, opencode, or a .zshrc written by an installer) make stow abort. Move
+# them into .stow-backups/<timestamp>/ (gitignored) so stow can link ours.
+# A conflict inside ~/.config/<app>/ moves the whole <app> directory, so the
+# result is one clean symlink instead of a directory mixing ours and theirs.
+backup_stow_conflicts() {
+  local conflicts backup_dir target root
+  conflicts=$(cd "$DOTFILES_DIR" && stow -n --restow . 2>&1 \
+    | sed -n 's/.*over existing target \(.*\) since neither a link nor a directory.*/\1/p' \
+    | sort -u)
+  [[ -z "$conflicts" ]] && return 0
+
+  backup_dir="$DOTFILES_DIR/.stow-backups/$(date '+%Y%m%d-%H%M%S')"
+  info "Backing up pre-existing files that conflict with stow to $backup_dir"
+  while IFS= read -r target; do
+    [[ -z "$target" ]] && continue
+    # ~/.config/<app>/... -> back up ~/.config/<app>; anything else -> the file itself
+    if [[ "$target" == .config/*/* ]]; then
+      root="${target%%/*}/$(cut -d/ -f2 <<<"$target")"
+    else
+      root="$target"
+    fi
+    [[ -e "$HOME/$root" && ! -L "$HOME/$root" ]] || continue
+    mkdir -p "$backup_dir/$(dirname "$root")"
+    mv "$HOME/$root" "$backup_dir/$root"
+    info "  moved ~/$root"
+  done <<<"$conflicts"
+  record "Conflicting files backed up to $backup_dir"
 }
 
 # ─── Common Setup (both platforms) ───────────────────────────────────────────
@@ -354,6 +391,7 @@ setup_common() {
 
   # 2. Stow dotfiles
   header "Stowing Dotfiles"
+  backup_stow_conflicts
   info "Running: stow --restow . (from $DOTFILES_DIR)"
   # Use --restow to be safe on re-runs; conflicts will error out with set -e
   # Temporarily disable set -e so we can give a useful message on conflict

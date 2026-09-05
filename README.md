@@ -77,6 +77,32 @@ scripts/            # Tool-specific install scripts
 bootstrap.sh        # Automated setup script
 ```
 
+## Omarchy (Arch + Hyprland)
+
+On an [Omarchy](https://omarchy.org/) install the repo coexists with the Omarchy
+defaults instead of replacing them:
+
+- **Ours (stowed):** zsh, starship, nvim, herdr, opencode, wtf, zellij, gh.
+  Omarchy's copies of nvim/herdr/opencode/wtf go to `.stow-backups/<timestamp>/`
+  (`bootstrap.sh` does this automatically before `stow`).
+- **Omarchy's (not in the repo):** `~/.config/hypr/`, `~/.config/ghostty/`,
+  `~/.config/tmux/`, `~/.config/omarchy/`, `~/.bashrc`. Ghostty stays outside the
+  repo on purpose: `omarchy font set` rewrites it with `sed -i`, which would
+  replace a stow symlink with a plain file.
+- **Bridges:**
+  - `.zshrc` sources Omarchy's `env-bootstrap`/`envs`/`aliases`/`functions`
+    (they are zsh-compatible) and activates mise. Personal aliases win.
+  - `.config/nvim/lua/trajanoreuter/plugins/omarchy.lua` reads the active theme
+    from `~/.local/state/omarchy/current/theme/neovim.lua`, so `omarchy theme set`
+    also themes nvim (catppuccin remains the fallback elsewhere). Restart nvim
+    after switching themes.
+  - herdr uses `theme.name = "terminal"`, so it follows the terminal palette
+    (Omarchy theme on Linux, WezTerm scheme on macOS).
+- **One-time local tweaks:** `chsh -s /usr/bin/zsh`; `background-opacity = 0.85`
+  in `~/.config/ghostty/config` and `decoration.blur` in
+  `~/.config/hypr/looknfeel.lua` to mirror the WezTerm look.
+- `bootstrap.sh` skips `pacman -Syu` on Omarchy — use `omarchy update`.
+
 ## Cross-Platform Notes
 
 - OS detection uses `$OSTYPE` (zsh) and `uname -s` (bootstrap)

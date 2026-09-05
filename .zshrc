@@ -52,6 +52,26 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:_zlua:*' query-string input
 zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps --pid=$in[(w)1] -o cmd --no-headers -w -w' --preview-window=down:3:wrap
 
+# Omarchy (Arch + Hyprland) — só roda onde o Omarchy está instalado.
+# Reaproveita os defaults de shell do Omarchy (são compatíveis com zsh):
+#   env-bootstrap  OMARCHY_PATH + PATH (mise shims, ~/.local/bin)
+#   envs           BAT_THEME=ansi, man via bat, BROWSER, locale
+#   aliases        ls via eza, ff/eff, open(), zd, ...
+#   functions      compress/decompress, tmux/herdr helpers, ssh/rsync helpers, ...
+# Aliases pessoais abaixo têm precedência (ex.: cd=z, t=tmux).
+if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
+  # envs só define EDITOR/BROWSER se ainda não existirem; em shell não-login
+  # (.zprofile não roda) garante o nvim antes.
+  export EDITOR="${EDITOR:-nvim}" VISUAL="${VISUAL:-nvim}"
+  source /usr/share/omarchy/default/bash/env-bootstrap
+  source "$OMARCHY_PATH/default/bash/envs"
+  source "$OMARCHY_PATH/default/bash/aliases"
+  source "$OMARCHY_PATH/default/bash/functions"
+  if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+  fi
+fi
+
 ## aliases
 alias op="NODE_TLS_REJECT_UNAUTHORIZED=0 opencode"
 alias zl="zellij"
@@ -172,7 +192,7 @@ function unset-envs() {
 }
 
 function ytd3() {
-  local download_dir="/Users/trajanoreuter/Music/Downloads"
+  local download_dir="$HOME/Music/Downloads"
 
   if (( $# != 1 )); then
     echo "Usage: ytd3 <youtube-url>" >&2
@@ -192,7 +212,7 @@ function ytd3() {
 }
 
 function ytd4() {
-  local download_dir="/Users/trajanoreuter/Music/Downloads"
+  local download_dir="$HOME/Music/Downloads"
 
   if (( $# != 1 )); then
     echo "Usage: ytd4 <youtube-url>" >&2
@@ -209,7 +229,7 @@ function ytd4() {
 }
 
 function ytdp() {
-  local download_dir="/Users/trajanoreuter/Music/Downloads"
+  local download_dir="$HOME/Music/Downloads"
   local playlist_name="$1"
   local playlist_url="$2"
   local target_dir="$download_dir/$playlist_name"
@@ -243,6 +263,7 @@ if command -v zoxide &> /dev/null; then
   eval "$(zoxide init zsh)"
 fi
 if command -v starship &> /dev/null; then
+  export STARSHIP_CONFIG="${STARSHIP_CONFIG:-$HOME/.config/starship/starship.toml}"
   eval "$(starship init zsh)"
 fi
 
@@ -271,3 +292,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# >>> Codex installer >>>
+export PATH="/home/traj/.local/bin:$PATH"
+# <<< Codex installer <<<

@@ -354,7 +354,11 @@ return {
       vim.api.nvim_set_hl(0, "NavicText", { default = true, bg = "none", fg = "#eedaad" })
       vim.api.nvim_set_hl(0, "NavicSeparator", { default = true, bg = "none", fg = "#eedaad" })
       --
-      vim.api.nvim_command("colorscheme catppuccin")
+      -- No Omarchy o tema do sistema vence (ver plugins/omarchy.lua); catppuccin é o fallback.
+      local scheme = vim.g.omarchy_colorscheme or "catppuccin"
+      if not pcall(vim.cmd.colorscheme, scheme) then
+        vim.cmd.colorscheme("catppuccin")
+      end
     end,
   },
   {
