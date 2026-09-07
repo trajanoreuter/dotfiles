@@ -59,10 +59,10 @@ return {
     end, { desc = "Swap function with next" })
     vim.keymap.set("n", "<leader>pa", function()
       swap.swap_previous("@parameter.inner")
-    end, { desc = "Swap parameter with prev" })
+    end, { desc = "Swap parameter with previous" })
     vim.keymap.set("n", "<leader>p:", function()
       swap.swap_previous("@property.outer")
-    end, { desc = "Swap object property with prev" })
+    end, { desc = "Swap object property with previous" })
     vim.keymap.set("n", "<leader>pm", function()
       swap.swap_previous("@function.outer")
     end, { desc = "Swap function with previous" })
@@ -136,13 +136,13 @@ return {
     end, { desc = "Prev loop end" })
 
     -- repeatable moves: ; goes to the direction you were moving
-    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move)
-    vim.keymap.set({ "n", "x", "o" }, ",", ts_repeat_move.repeat_last_move_opposite)
-
-    -- make builtin f, F, t, T also repeatable with ; and ,
-    vim.keymap.set({ "n", "x", "o" }, "f", ts_repeat_move.builtin_f_expr, { expr = true })
-    vim.keymap.set({ "n", "x", "o" }, "F", ts_repeat_move.builtin_F_expr, { expr = true })
-    vim.keymap.set({ "n", "x", "o" }, "t", ts_repeat_move.builtin_t_expr, { expr = true })
-    vim.keymap.set({ "n", "x", "o" }, "T", ts_repeat_move.builtin_T_expr, { expr = true })
+    -- f/F/t/T ficam com o hop (plugins/hop.lua); ; e , repetem só os moves do treesitter.
+    vim.keymap.set({ "n", "x", "o" }, ";", ts_repeat_move.repeat_last_move, { desc = "Repeat last move" })
+    vim.keymap.set(
+      { "n", "x", "o" },
+      ",",
+      ts_repeat_move.repeat_last_move_opposite,
+      { desc = "Repeat last move (reverse)" }
+    )
   end,
 }

@@ -12,6 +12,6 @@ return {
     })
 
     local keymap = vim.keymap
-    keymap.set("n", "<leader>o", "<cmd>Oil<CR>", { desc = "Open oil" })
+    keymap.set("n", "<leader>o", "<cmd>Oil<CR>", { desc = "Open Oil (edit directory as buffer)" })
   end,
 }

@@ -32,10 +32,11 @@ return {
     end
 
     local wk = require("which-key")
+    -- Sob <leader>d, junto com os diagnostics do LSP (lsp.lua).
     wk.add({
-      { "<leader>dt", dap.toggle_breakpoint, desc = "DAP Breakpoint Toggle" },
-      { "<leader>dc", dap.continue, desc = "DAP Continue" },
-      { "<leader>du", dapui.toggle, desc = "DAP UI Toggle" },
+      { "<leader>dt", dap.toggle_breakpoint, desc = "Toggle breakpoint" },
+      { "<leader>dc", dap.continue, desc = "Continue" },
+      { "<leader>du", dapui.toggle, desc = "Toggle debug UI" },
     })
   end,
 }

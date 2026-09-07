@@ -8,8 +8,8 @@ return {
     local wk = require("which-key")
 
     wk.add({
-      { "<leader>/", "<Plug>(comment_toggle_linewise_current)", desc = "Toggle line comment" },
-      { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle line comment", mode = "v" },
+      { "<leader>/", "<Plug>(comment_toggle_linewise_current)", desc = "Toggle comment" },
+      { "<leader>/", "<Plug>(comment_toggle_linewise_visual)", desc = "Toggle comment", mode = "v" },
     })
 
     vim.g.skip_ts_context_commentstring_module = true

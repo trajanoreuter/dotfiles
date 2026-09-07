@@ -29,30 +29,29 @@ return {
         :find()
     end
 
+    -- Keymaps sob <leader>h (grupo Harpoon no which-key).
     local keymap = vim.keymap
 
     keymap.set("n", "<leader>ha", function()
       harpoon:list():add()
-    end, { desc = "Add" })
-
-    -- select harpoon 1-9
-    for i = 1, 9 do
-      keymap.set("n", "<leader>h" .. i, function()
-        harpoon:list():select(i)
-      end, { desc = "Select " .. i })
-    end
-
-    -- Toggle previous & next buffers stored within Harpoon list
-    keymap.set("n", "<C-S-P>", function()
-      harpoon:list():prev()
-    end)
-
-    keymap.set("n", "<C-S-N>", function()
-      harpoon:list():next()
-    end)
+    end, { desc = "Add file" })
 
     keymap.set("n", "<leader>hl", function()
       toggle_telescope(harpoon:list())
-    end, { desc = "Open harpoon window" })
+    end, { desc = "List files" })
+
+    for i = 1, 9 do
+      keymap.set("n", "<leader>h" .. i, function()
+        harpoon:list():select(i)
+      end, { desc = "Go to file " .. i })
+    end
+
+    keymap.set("n", "<C-S-P>", function()
+      harpoon:list():prev()
+    end, { desc = "Harpoon previous file" })
+
+    keymap.set("n", "<C-S-N>", function()
+      harpoon:list():next()
+    end, { desc = "Harpoon next file" })
   end,
 }
