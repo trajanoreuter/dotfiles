@@ -8,7 +8,7 @@ export FZF_DEFAULT_OPTS="
  --preview-window=right:50%
  --preview-window=sharp
  --preview-window=cycle
- --preview '([[ -f {} ]] && (bat --style=numbers --color=always --theme=gruvbox-dark --line-range :500 {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
+ --preview '([[ -f {} ]] && (bat --style=numbers --color=always --line-range :500 {} || cat {})) || ([[ -d {} ]] && (tree -C {} | less)) || echo {} 2> /dev/null | head -200'
  --prompt='λ -> '
  --pointer='|>'
  --marker='✓'
@@ -36,3 +36,7 @@ export EDITOR='nvim'
 export VISUAL='nvim'
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
+# bat/preview do fzf seguem a paleta ANSI do terminal: no Omarchy é o tema
+# ativo (omarchy theme set), no macOS o color_scheme do WezTerm.
+export BAT_THEME="${BAT_THEME:-ansi}"

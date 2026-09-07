@@ -12,6 +12,14 @@ source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
+# History — persistente e compartilhado entre terminais (o zsh não salva nada
+# sem HISTFILE/SAVEHIST). Tamanho igual ao do bash do Omarchy (32768).
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=32768
+SAVEHIST=$HISTSIZE
+setopt append_history share_history inc_append_history
+setopt hist_ignore_all_dups hist_ignore_space hist_reduce_blanks hist_verify
+
 # plugins
 zinit light zsh-users/zsh-autosuggestions
 
@@ -20,17 +28,21 @@ zinit light jeffreytse/zsh-vi-mode
 zinit light Aloxaf/fzf-tab
 zinit light zdharma-continuum/fast-syntax-highlighting
 
-# FZF
-if [[ "$OSTYPE" == darwin* ]]; then
-  zinit ice from="gh-r" as="command" bpick="*darwin*"
-else
-  zinit ice from="gh-r" as="command" bpick="*linux*"
+# FZF — usa o binário do sistema quando existe (pacman no Omarchy, brew no
+# macOS) e só baixa do GitHub via zinit onde não há fzf instalado.
+if ! command -v fzf &> /dev/null; then
+  if [[ "$OSTYPE" == darwin* ]]; then
+    zinit ice from="gh-r" as="command" bpick="*darwin*"
+  else
+    zinit ice from="gh-r" as="command" bpick="*linux*"
+  fi
+  zinit light junegunn/fzf
+  zinit ice lucid wait'0c' as="command" id-as="junegunn/fzf-tmux" pick="bin/fzf-tmux"
+  zinit light junegunn/fzf
 fi
-zinit light junegunn/fzf
-zinit ice lucid wait'0c' as="command" id-as="junegunn/fzf-tmux" pick="bin/fzf-tmux"
-zinit light junegunn/fzf
-zinit ice lucid wait'0c' multisrc"shell/{completion,key-bindings}.zsh" id-as="junegunn/fzf_completions" pick="/dev/null"
-zinit light junegunn/fzf
+# Keybindings (ctrl-r/ctrl-t/alt-c) e completion do fzf. O zsh-vi-mode
+# reconfigura o keymap ao iniciar, então isso precisa rodar depois dele.
+zvm_after_init_commands+=('command -v fzf &> /dev/null && source <(fzf --zsh 2>/dev/null)')
 
 # Initialize completion system (required for all tab-completions to work)
 autoload -Uz compinit && compinit
@@ -41,7 +53,7 @@ zinit cdreplay -q
 # kubectl completions (must come after compinit so `compdef` is defined)
 if command -v kubectl &> /dev/null; then
   source <(kubectl completion zsh)
-  compdef kubecolor=kubectl
+  command -v kubecolor &> /dev/null && compdef kubecolor=kubectl
 fi
 
 # Completion styling
@@ -56,9 +68,12 @@ zstyle ':fzf-tab:complete:kill:argument-rest' extra-opts --preview=$extract'ps -
 # Reaproveita os defaults de shell do Omarchy (são compatíveis com zsh):
 #   env-bootstrap  OMARCHY_PATH + PATH (mise shims, ~/.local/bin)
 #   envs           BAT_THEME=ansi, man via bat, BROWSER, locale
-#   aliases        ls via eza, ff/eff, open(), zd, ...
-#   functions      compress/decompress, tmux/herdr helpers, ssh/rsync helpers, ...
-# Aliases pessoais abaixo têm precedência (ex.: cd=z, t=tmux).
+#   aliases        ls via eza, ff/eff, open(), zd, n(), c/cx/cy (agentes), ...
+#   functions      compress/decompress, tdl/tds/tsl (tmux), hdl/hds/hsl (herdr),
+#                  rsw (rsync on change), fip/dip (ssh port-forward), ssh com
+#                  reconexão, ga/gd (worktrees) ...
+#   completions    completion do comando `omarchy` (via bashcompinit)
+# Aliases pessoais abaixo têm precedência (ex.: cd=z, t=tmux, ga=git add).
 if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
   # envs só define EDITOR/BROWSER se ainda não existirem; em shell não-login
   # (.zprofile não roda) garante o nvim antes.
@@ -67,9 +82,24 @@ if [[ -r /usr/share/omarchy/default/bash/env-bootstrap ]]; then
   source "$OMARCHY_PATH/default/bash/envs"
   source "$OMARCHY_PATH/default/bash/aliases"
   source "$OMARCHY_PATH/default/bash/functions"
-  if command -v mise &> /dev/null; then
-    eval "$(mise activate zsh)"
-  fi
+  autoload -Uz bashcompinit && bashcompinit
+  source "$OMARCHY_PATH/default/bash/completions" 2>/dev/null
+else
+  # Fora do Omarchy (macOS, Ubuntu): cópia portátil dos mesmos helpers —
+  # ff/eff, lt, n(), c/cx/cy, tdl/hdl (layouts tmux/herdr), fip/dip, compress.
+  [[ -r "$HOME/.config/zsh/omarchy/portable.zsh" ]] && source "$HOME/.config/zsh/omarchy/portable.zsh"
+fi
+
+# mise — gerencia node/claude/codex/opencode/gh no Omarchy; no macOS só ativa
+# se estiver instalado (brew install mise).
+if command -v mise &> /dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
+# try — workspaces descartáveis em ~/Work/tries (vem com o Omarchy; no macOS:
+# brew install tobi/try/try). Uso: `try <nome>` cria/entra numa pasta datada.
+if command -v try &> /dev/null; then
+  eval "$(try init ~/Work/tries)"
 fi
 
 ## aliases
@@ -77,16 +107,22 @@ alias op="NODE_TLS_REJECT_UNAUTHORIZED=0 opencode"
 alias zl="zellij"
 alias lzd="lazydocker"
 alias wtf="wtfutil"
-alias man=batman
 alias t=tmux
-alias ping="prettyping"
 alias rens="source ~/.zshrc"
-alias cat=bat
-alias kubectl="kubecolor"
-alias k="kubecolor"
-alias top=htop
 alias tf=terraform
 alias cd='z'
+# Substitutos só quando o binário existe, senão o comando original quebra
+# (ex.: `ping` sem prettyping instalado).
+command -v batman     &> /dev/null && alias man=batman
+command -v prettyping &> /dev/null && alias ping="prettyping"
+command -v bat        &> /dev/null && alias cat=bat
+command -v htop       &> /dev/null && alias top=htop
+if command -v kubecolor &> /dev/null; then
+  alias kubectl="kubecolor"
+  alias k="kubecolor"
+else
+  alias k="kubectl"
+fi
 
 # vim
 alias vim=nvim
@@ -103,7 +139,7 @@ alias g='git'
 alias ggpull='git pull origin $(current_branch)'
 alias ggpush='git push origin $(current_branch)'
 alias ggpnp='git pull origin $(current_branch) && git push origin $(current_branch)'
-alias glo='git log --online'
+alias glo='git log --oneline'
 alias gst='git status'
 alias gup='git fetch && git rebase'
 alias gc='git commit -v'
@@ -278,21 +314,17 @@ if [ -f "$HOME/Downloads/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Downloa
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Downloads/google-cloud-sdk/completion.zsh.inc"; fi
 
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# Instaladores de CLI (codex, uv, ...) colocam binários em ~/.local/bin.
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# bun completions
-[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# >>> Codex installer >>>
-export PATH="/home/traj/.local/bin:$PATH"
-# <<< Codex installer <<<

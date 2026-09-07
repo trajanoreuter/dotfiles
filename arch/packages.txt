@@ -58,9 +58,16 @@ zoxide
 # nvm + Node.js 22: bootstrap.sh curl installer
 # sdkman/kotlin/gradle: bootstrap.sh
 #
-# --- AUR/manual candidates ---
-# kubecolor
-# opencode
-# prettyping
+# --- Usados pelos aliases do .zshrc (top, ping, kubectl, tf, ytd*) ---
+htop
+kubectl
+prettyping
+terraform
+yt-dlp
+
+# --- AUR: ver arch/aur.txt (bootstrap.sh instala com yay quando existir) ---
+# kubecolor, wtfutil
+#
+# --- Manual ---
+# opencode: no Omarchy vem via mise (~/.config/mise/config.toml)
 # tfswitch
-# wtfutil

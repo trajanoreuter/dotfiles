@@ -1,0 +1,37 @@
+# Animals — paleta extraída da capa "Animals" (Pink Floyd, Battersea Power Station).
+# Fundo marrom-fumaça, texto creme, acento no dourado das chaminés.
+mode = "dark"
+
+accent = "#d8a445"
+selection = "#4a3529"
+muted = "#7a6656"
+
+background = "#241c17"
+dark_background = "#1a1410"
+darker_background = "#120e0b"
+lighter_background = "#372b25"
+
+foreground = "#e8d9b8"
+dark_foreground = "#8c7a66"
+light_foreground = "#d4c4a4"
+bright_foreground = "#f3e6c8"
+
+red = "#e2674f"
+yellow = "#e8c15a"
+orange = "#cc6d30"
+green = "#a9b26a"
+cyan = "#8fb5a8"
+blue = "#7f9db9"
+magenta = "#e39aa0"
+brown = "#714b34"
+
+bright_red = "#f07a62"
+bright_yellow = "#f1d075"
+bright_green = "#bcc47e"
+bright_cyan = "#a5cbbe"
+bright_blue = "#96b3cf"
+bright_magenta = "#f0b0b5"
+
+# Borda ativa: gradiente dourado → laranja do pôr do sol; inativa: sombra do tijolo.
+hyprland_active_border = "rgba(d8a445ee) rgba(cc6d30ee) 45deg"
+hyprland_inactive_border = "rgba(4a3529aa)"

@@ -336,6 +336,28 @@ setup_arch() {
   else
     skip "arch/packages.txt not found — skipping pacman package install"
   fi
+
+  # AUR packages via yay (Omarchy ships yay; plain Arch may not have it)
+  AUR_PACKAGES_FILE="$DOTFILES_DIR/arch/aur.txt"
+  if [[ -f "$AUR_PACKAGES_FILE" ]]; then
+    if command -v yay &>/dev/null; then
+      info "Installing AUR packages from arch/aur.txt..."
+      while IFS= read -r pkg || [[ -n "$pkg" ]]; do
+        [[ -z "$pkg" || "$pkg" =~ ^[[:space:]]*# ]] && continue
+        pkg="$(echo "$pkg" | xargs)"
+        [[ -z "$pkg" ]] && continue
+        if pacman -Qi "$pkg" &>/dev/null; then
+          skip "aur: $pkg (already installed)"
+        else
+          info "yay -S $pkg"
+          yay -S --needed --noconfirm "$pkg" </dev/null || error "Failed to install $pkg (AUR) — continuing"
+        fi
+      done < "$AUR_PACKAGES_FILE"
+      record "AUR packages installed"
+    else
+      skip "yay not found — skipping arch/aur.txt (install yay and re-run)"
+    fi
+  fi
 }
 
 # ─── Stow conflict handling ──────────────────────────────────────────────────
@@ -479,7 +501,7 @@ setup_common() {
     done
   fi
 
-  # 6. TPM — tmux plugin manager
+  # 6. TPM — tmux plugin manager (+ plugins, so the first `tmux` already has them)
   TPM_DIR="$HOME/.tmux/plugins/tpm"
   if [[ ! -d "$TPM_DIR" ]]; then
     info "Installing TPM (tmux plugin manager)..."
@@ -488,6 +510,47 @@ setup_common() {
     record "TPM (tmux plugin manager) installed"
   else
     skip "TPM already installed ($TPM_DIR)"
+  fi
+  if [[ -x "$TPM_DIR/bin/install_plugins" ]] && command -v tmux &>/dev/null; then
+    info "Installing tmux plugins from .tmux.conf..."
+    "$TPM_DIR/bin/install_plugins" >/dev/null 2>&1 && record "tmux plugins installed" \
+      || error "TPM install_plugins failed — run prefix+I inside tmux"
+  fi
+
+  # 7. Agent skills: link .agents/skills/* where each agent looks for them
+  #    (same approach Omarchy uses for its own skills). Only into dirs that
+  #    already exist, so an agent that is not installed is left alone.
+  if [[ -d "$DOTFILES_DIR/.agents/skills" ]]; then
+    mkdir -p "$HOME/.agents/skills"
+    for skill_dir in "$DOTFILES_DIR"/.agents/skills/*/; do
+      [[ -d "$skill_dir" ]] || continue
+      skill_name="$(basename "$skill_dir")"
+      for target_root in "$HOME/.agents/skills" "$HOME/.claude/skills" "$HOME/.codex/skills"; do
+        [[ -d "$(dirname "$target_root")" ]] || continue
+        mkdir -p "$target_root"
+        if [[ "$(readlink "$target_root/$skill_name" 2>/dev/null)" == "${skill_dir%/}" ]]; then
+          continue
+        fi
+        if [[ -e "$target_root/$skill_name" && ! -L "$target_root/$skill_name" ]]; then
+          error "$target_root/$skill_name exists and is not a symlink — skipping"
+          continue
+        fi
+        ln -sfn "${skill_dir%/}" "$target_root/$skill_name"
+        success "skill '$skill_name' -> $target_root"
+        record "agent skill '$skill_name' linked into $target_root"
+      done
+    done
+  fi
+
+  # 8. Omarchy theme shipped in this repo (stowed into ~/.config/omarchy/themes)
+  if [[ -d /usr/share/omarchy ]] && command -v omarchy &>/dev/null && [[ -n "${WAYLAND_DISPLAY:-}" ]]; then
+    if [[ "$(omarchy theme current 2>/dev/null)" == "Animals" ]]; then
+      skip "Omarchy theme 'animals' already active"
+    else
+      info "Applying Omarchy theme 'animals' from this repo..."
+      omarchy theme set animals && record "Omarchy theme 'animals' applied" \
+        || error "omarchy theme set animals failed"
+    fi
   fi
 }
 

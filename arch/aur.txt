@@ -1,0 +1,9 @@
+# arch/aur.txt
+# Pacotes que só existem no AUR. bootstrap.sh instala com yay (o Omarchy já
+# vem com yay; num Arch puro instale o yay antes ou pule esta lista).
+# Manual: grep -vE '^\s*(#|$)' arch/aur.txt | xargs yay -S --needed
+
+# k / kubectl coloridos (alias no .zshrc)
+kubecolor
+# dashboard `wtf` (alias no .zshrc); antes vinha de scripts/wtfutil.sh
+wtfutil
